@@ -13,7 +13,9 @@ export default function ImgCanvas() {
     ctx.fillStyle = '#d3eda33c';
     ctx.strokeStyle = '#9cd8e96b';
     if (drawState) {
+
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
       ctx.strokeRect(
         startPoint[0],
         startPoint[1],
@@ -27,14 +29,24 @@ export default function ImgCanvas() {
         endPoint[1] - startPoint[1],
       );
     }
+
   }, [drawState, endPoint, startPoint]);
 
+    // ctx.moveTo(100, 100);
+
+    //!
+
+
+    //!
+  }, [drawState, endPoint, startPoint]);
+  console.log(startPoint, endPoint, drawState);
   const draw = (e) => {
     const offsetX = e.target.offsetLeft;
     const offsetY = e.target.offsetTop;
     switch (e.type) {
       case 'mouseup':
         setEndPoint([e.pageX - offsetX, e.pageY - offsetY]);
+
         setDrawState(false);
         break;
       case 'mousedown':
