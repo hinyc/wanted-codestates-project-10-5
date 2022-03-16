@@ -9,7 +9,7 @@ function Search(props) {
         PXL <Span>Fashion</Span> Viewer
       </Title>
       <SearchBox>
-        <SearchBar />
+        <SearchBar placeholder="IMAGE URL or KEYWORK" />
         <Button>search</Button>
       </SearchBox>
     </Container>
@@ -80,7 +80,8 @@ const Button = styled.button`
   transition: all 0.3s ease;
   font-size: 1.5rem;
   &:hover {
-    background: #969696;
+    background: #3b3b3b;
+    color: #ffffff;
   }
   @media screen and (max-width: 768px) {
     width: 9rem;

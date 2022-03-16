@@ -19,6 +19,7 @@ const Container = styled.div`
   height: 40rem;
   background: #ffffff;
   border: 2px solid #eeefef;
+  cursor: pointer;
 `;
 const Image = styled.img.attrs({
   src: 'https://picsum.photos/400/400',
