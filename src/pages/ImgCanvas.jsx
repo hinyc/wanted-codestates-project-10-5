@@ -13,6 +13,9 @@ export default function ImgCanvas() {
     ctx.fillStyle = '#d3eda33c';
     ctx.strokeStyle = '#9cd8e96b';
     if (drawState) {
+
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
       ctx.strokeRect(
         startPoint[0],
         startPoint[1],
@@ -26,9 +29,13 @@ export default function ImgCanvas() {
         endPoint[1] - startPoint[1],
       );
     }
+
+  }, [drawState, endPoint, startPoint]);
+
     // ctx.moveTo(100, 100);
 
     //!
+
 
     //!
   }, [drawState, endPoint, startPoint]);
@@ -78,6 +85,5 @@ const Canvas = styled.canvas`
   border: 1px solid black;
   background-size: cover;
   background-image: url(${getImg});
-
   /* background-color: rgba(0, 0, 0, 0); */
 `;
