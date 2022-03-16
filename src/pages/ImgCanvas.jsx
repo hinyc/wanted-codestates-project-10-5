@@ -45,9 +45,6 @@ export default function ImgCanvas() {
 
   useEffect(() => {});
 
-  //!
-  //!
-
   const draw = (e) => {
     const offsetX = e.target.offsetLeft;
     const offsetY = e.target.offsetTop;
@@ -104,5 +101,4 @@ const Canvas = styled.canvas`
   border: 1px solid black;
   background-size: cover;
   background-image: url(${getImg});
-  /* background-color: rgba(0, 0, 0, 0); */
 `;
