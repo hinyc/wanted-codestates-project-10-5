@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import productSrc from '../assets/temp_product.png';
 import Nav from '../components/assign1/Nav';
@@ -35,30 +34,45 @@ const dummyData = {
 };
 
 function ResultDetail(props) {
-  const navigate = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState(dummyData);
-  const [searchResults, setSearchResults] = useState([]); // 페이지 우측의 검색 결과 리스트 데이터
+  const [searchResults, setSearchResults] = useState([]); // 카테고리가 일치하는 검색 결과 데이터 리스트
   const [attributes, setAttributes] = useState([]);
+  const [searchCategory, setSearchCategory] = useState('');
 
-  const moveToSearchPage = () => {
-    navigate('/search');
-  };
-
-  // Attributes 카테고리, 태그 배열에 담기
   useEffect(() => {
+    // Attributes 카테고리, 태그 배열에 담기
     const attrList = [];
     searchKeyword.attributes.forEach((attr) => {
       const [category, tags] = [
         Object.keys(attr)[0],
         Object.values(attr)[0].split('_or_'),
       ];
-      tags.forEach((tag) =>
-        attrList.push([tag.toUpperCase(), category.toUpperCase()]),
-      );
+      tags.forEach((tag) => attrList.push([tag, category]));
     });
 
     setAttributes(attrList);
+
+    // c1 카테고리 값 상태 값으로 저장
+    setSearchCategory(searchKeyword.category_names[0].slice(3));
   }, [searchKeyword]);
+
+  // 검색 결과 리스트 데이터 필터링해서 저장
+  useEffect(() => {
+    const originDatas = JSON.parse(window.localStorage.getItem('originData'));
+    // const regionsData = JSON.parse(window.localStorage.getItem('regionsData'));
+
+    const filteredData = originDatas.filter(({ category_names }) => {
+      let flag = false;
+      for (const name of category_names) {
+        if (name === searchCategory) {
+          flag = true;
+        }
+      }
+      return flag;
+    });
+    console.log(filteredData[0]);
+    setSearchResults(filteredData);
+  }, [searchCategory]);
 
   return (
     <Container>
@@ -68,9 +82,7 @@ function ResultDetail(props) {
           <div>
             <img src={productSrc} alt="product detail view" />
             <p className="section-label">ITEMS</p>
-            <div className="category">
-              {searchKeyword.category_names[0].slice(3).toUpperCase()}
-            </div>
+            <div className="category">{searchCategory.toUpperCase()}</div>
           </div>
           <Divider />
           <div>
@@ -79,8 +91,8 @@ function ResultDetail(props) {
               {attributes.map(([tag, category], idx) => {
                 return (
                   <li key={idx} className="attributes-item">
-                    <p className="item-tag">#{tag}</p>
-                    <p className="item-category">{category}</p>
+                    <p className="item-tag">#{tag.toUpperCase()}</p>
+                    <p className="item-category">{category.toUpperCase()}</p>
                   </li>
                 );
               })}
@@ -88,13 +100,16 @@ function ResultDetail(props) {
           </div>
         </DetailResult>
         <ResultWrapper>
+          {searchResults.slice(0, 10).map((productInfo, idx) => {
+            return <ImageBox key={idx} productInfo={productInfo} />;
+          })}
+          {/* <ImageBox />
           <ImageBox />
           <ImageBox />
           <ImageBox />
           <ImageBox />
           <ImageBox />
-          <ImageBox />
-          <ImageBox />
+          <ImageBox /> */}
         </ResultWrapper>
       </Body>
     </Container>
