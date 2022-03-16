@@ -3,41 +3,29 @@ import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 import MoreBtn from '../components/assign1/MoreBtn';
-import axios from 'axios';
-function Result(props) {
-  const originDatas = [];
-  const [viewDatas, setViewDatas] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        'https://static.pxl.ai/problem/data/regions.json',
-      );
-      originDatas.push(...data);
-      setViewDatas(originDatas.slice(0, 20));
-    })();
-  }, []);
 
-  const getMoreData = useMemo(() => {
-    return (function* () {
-      let loadCtn = 20;
-      while (true) {
-        setViewDatas(originDatas.slice(0, (loadCtn += 20)));
-        yield;
-      }
-    })();
-  }, []);
+function Result(props) {
+  // const getMoreData = useMemo(() => {
+  //   return (function* () {
+  //     let loadCtn = 20;
+  //     while (true) {
+  //       setViewDatas(originDatas.slice(0, (loadCtn += 20)));
+  //       yield;
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <Container>
       <Nav />
-      <ResultWrapper>
+      {/* <ResultWrapper>
         {viewDatas.map((data) => (
           <ImageBox key={data.product_code} />
         ))}
       </ResultWrapper>
       <ButtonWrapper>
         <MoreBtn getMoreData={getMoreData} />
-      </ButtonWrapper>
+      </ButtonWrapper> */}
     </Container>
   );
 }

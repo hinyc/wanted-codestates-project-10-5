@@ -5,8 +5,6 @@ import productSrc from '../assets/temp_product.png';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 
-
-
 const dummyData = {
   product_code: 1,
   region_id: 2910,
@@ -180,7 +178,6 @@ const Attributes = styled.ul`
     margin-top: 0.6rem;
   }
 `;
-
 const ResultWrapper = styled.section`
   width: 100%;
   max-width: 100rem;
@@ -188,10 +185,6 @@ const ResultWrapper = styled.section`
   display: flex;
   // justify-content: space-around;
   flex-wrap: wrap;
-`;
-const ResultComponent = styled.article`
-  width: 17rem;
-  height: 33rem;
   margin: -2.5rem 0;
   > div {
     margin: 2.5rem;

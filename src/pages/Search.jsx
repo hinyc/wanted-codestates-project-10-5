@@ -1,7 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import axios from 'axios';
 function Search(props) {
+  const originDatas = [];
+  const [viewDatas, setViewDatas] = useState([]);
+
+  const obj = {
+    상의: 'tops',
+    tops: 'tops',
+    하의: 'bottoms',
+    bottoms: 'bottoms',
+    바지: 'pants',
+    pants: 'pants',
+    원피스: 'dresses',
+    드레스: 'dresses',
+    dresses: 'dresses',
+    신발: 'shoes',
+    shoes: 'shoes',
+    겉옷: ['outwears', 'outer'],
+    outwears: 'outwears',
+    outwear: 'outwears',
+    조끼: 'vests',
+    베스트: 'vests',
+    vests: 'vests',
+    자켓: 'jackets',
+    jackets: 'jackets',
+    코트: 'coats',
+    coats: 'coats',
+    니트: 'knitwear',
+    knit: 'knitwear',
+    knitwear: 'knitwear',
+    아우터: 'outer',
+    outer: 'outer',
+    outers: 'outer',
+    셔츠: 'shirts',
+    shirts: 'shirts',
+    후드집업: 'sweater',
+    후드티: 'sweater',
+    맨투맨: 'sweater',
+    스웨터: 'sweater',
+    sweaters: 'sweater',
+    sweater: 'sweater',
+    가디건: 'cardigans',
+    cardigans: 'cardigans',
+    블라우스: 'blouses',
+    blouses: 'blouses',
+    치마: 'skirts',
+    스커트: 'skirts',
+    skirts: 'skirts',
+  };
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(
+        'https://static.pxl.ai/problem/data/regions.json',
+      );
+      originDatas.push(...data);
+      window.localStorage.setItem('originData', JSON.stringify(originDatas));
+      setViewDatas(originDatas.slice(0, 20));
+    })();
+  }, []);
+
   return (
     <Container>
       <Title>
