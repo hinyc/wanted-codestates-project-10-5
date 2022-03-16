@@ -1,13 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logoSrc from '../assets/logo_pxl.png';
 import productSrc from '../assets/temp_product.png';
+import Nav from '../components/assign1/Nav';
 
 // 스니펫: rsf
 
 function ResultDetail(props) {
-  const navigate = useNavigate();
   const c1 = 'ONE PIECE';
   const attributesData = [
     ['basic', 'style'],
@@ -18,17 +16,9 @@ function ResultDetail(props) {
     ['outdoor', 'occasion'],
   ];
 
-  const moveToSearchPage = () => {
-    navigate('/search');
-  };
-
   return (
     <Container>
-      <Head>
-        <button>
-          <img src={logoSrc} alt="PXL 아이콘" onClick={moveToSearchPage} />
-        </button>
-      </Head>
+      <Nav />
       <Body>
         <DetailResult>
           <div>
@@ -80,23 +70,6 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: #fff;
-`;
-const Head = styled.nav`
-  width: 100%;
-  height: 8rem;
-  display: flex;
-  align-items: center;
-  padding: 0 5rem;
-  border-bottom: 2px solid #f3f4f3;
-
-  button {
-    width: 9.7rem;
-    cursor: pointer;
-
-    img {
-      width: inherit;
-    }
-  }
 `;
 const Body = styled.div`
   width: 100%;
