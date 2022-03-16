@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
@@ -50,4 +51,5 @@ const ButtonWrapper = styled.div`
   margin-top: 4.2rem;
   padding-bottom: 1rem;
 `;
+
 export default Result;

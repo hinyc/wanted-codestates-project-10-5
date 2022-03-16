@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -147,4 +148,5 @@ const Button = styled.button`
     font-size: 1.2rem;
   }
 `;
+
 export default Search;

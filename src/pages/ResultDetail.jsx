@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -190,4 +191,5 @@ const ResultWrapper = styled.section`
     margin: 2.5rem;
   }
 `;
+
 export default ResultDetail;
