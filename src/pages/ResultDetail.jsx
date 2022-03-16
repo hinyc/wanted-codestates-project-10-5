@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logoSrc from '../assets/logo_pxl.png';
 import productSrc from '../assets/temp_product.png';
+import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 
-// 스니펫: rsf
+
 
 const dummyData = {
   product_code: 1,
@@ -63,11 +63,7 @@ function ResultDetail(props) {
 
   return (
     <Container>
-      <Head>
-        <button>
-          <img src={logoSrc} alt="PXL 아이콘" onClick={moveToSearchPage} />
-        </button>
-      </Head>
+      <Nav />
       <Body>
         <DetailResult>
           <div>
@@ -110,23 +106,6 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: #fff;
-`;
-const Head = styled.nav`
-  width: 100%;
-  height: 8rem;
-  display: flex;
-  align-items: center;
-  padding: 0 5rem;
-  border-bottom: 2px solid #f3f4f3;
-
-  button {
-    width: 9.7rem;
-    cursor: pointer;
-
-    img {
-      width: inherit;
-    }
-  }
 `;
 const Body = styled.div`
   width: 100%;
@@ -209,11 +188,13 @@ const ResultWrapper = styled.section`
   display: flex;
   // justify-content: space-around;
   flex-wrap: wrap;
+`;
+const ResultComponent = styled.article`
+  width: 17rem;
+  height: 33rem;
   margin: -2.5rem 0;
-
   > div {
     margin: 2.5rem;
   }
 `;
-
 export default ResultDetail;
