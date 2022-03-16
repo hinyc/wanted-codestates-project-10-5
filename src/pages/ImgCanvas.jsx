@@ -5,59 +5,63 @@ import getImg from '../assets/fashion-unsplash.jpeg';
 export default function ImgCanvas() {
   const [startPoint, setStartPoint] = useState([]);
   const [endPoint, setEndPoint] = useState([]);
+  const [drawState, setDrawState] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
-    console.dir(ref.current);
     let ctx = ref.current.getContext('2d');
-    ctx.fillStyle = 'rgb(200,0,0)';
-    ctx.strokeRect(0, 0, 5, 2.5);
-    ctx.fillStyle = 'rgb(100,50,0)';
-    ctx.strokeRect(5, 5, 5, 2.5);
-    ctx.fillStyle = 'rgb(200,200,0)';
-    ctx.strokeRect(10, 10, 5, 2.5);
-    ctx.fillStyle = 'rgb(200,0,200)';
-    ctx.strokeRect(15, 15, 5, 2.5);
-    ctx.fillStyle = 'rgb(0,200,0)';
-    ctx.strokeRect(20, 20, 5, -2.5);
+    ctx.fillStyle = '#d3eda33c';
+    ctx.strokeStyle = '#9cd8e96b';
+    if (drawState) {
+      ctx.strokeRect(
+        startPoint[0],
+        startPoint[1],
+        endPoint[0] - startPoint[0],
+        endPoint[1] - startPoint[1],
+      );
+      ctx.fillRect(
+        startPoint[0],
+        startPoint[1],
+        endPoint[0] - startPoint[0],
+        endPoint[1] - startPoint[1],
+      );
+    }
+    // ctx.moveTo(100, 100);
 
-    ctx.fillRect(25, 25, 100, 100);
-    ctx.clearRect(45, 45, 60, 60);
-    ctx.strokeRect(50, 50, 50, 50);
-  }, [endPoint, startPoint]);
+    //!
 
+    //!
+  }, [drawState, endPoint, startPoint]);
+  console.log(startPoint, endPoint, drawState);
   const draw = (e) => {
-    console.log(e);
-    let ctx = ref.current.getContext('2d');
-    // ctx.moveTo(0, 0);
-    // ctx.lineTo(200, 20);
-    // ctx.stroke();
     const offsetX = e.target.offsetLeft;
     const offsetY = e.target.offsetTop;
-    console.log(e.target);
     switch (e.type) {
       case 'mouseup':
         setEndPoint([e.pageX - offsetX, e.pageY - offsetY]);
+
+        setDrawState(false);
         break;
       case 'mousedown':
+        setDrawState(true);
         setStartPoint([e.pageX - offsetX, e.pageY - offsetY]);
         setEndPoint([]);
-        console.log('a');
         break;
-      // case 'mousemove':
-      // console.log('a');
-      //   break;
+      case 'mousemove':
+        setEndPoint([e.pageX - offsetX, e.pageY - offsetY]);
+        break;
       default:
         return;
     }
   };
-  console.log(startPoint, endPoint);
   return (
     <Container>
       <Canvas
+        width="900"
+        height="1000"
         ref={ref}
         onMouseDown={draw}
-        // onMouseMove={draw}
+        onMouseMove={draw}
         onMouseUp={draw}
         getImg={getImg}
       />
@@ -71,8 +75,6 @@ const Container = styled.div`
 `;
 
 const Canvas = styled.canvas`
-  width: 1000px;
-  height: 500px;
   border: 1px solid black;
   background-size: cover;
   background-image: url(${getImg});
