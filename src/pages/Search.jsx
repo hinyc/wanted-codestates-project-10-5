@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import axios from 'axios';
 function Search(props) {
+  const originDatas = [];
+  const [viewDatas, setViewDatas] = useState([]);
+
   const obj = {
     상의: 'tops',
     tops: 'tops',
@@ -46,6 +49,17 @@ function Search(props) {
     스커트: 'skirts',
     skirts: 'skirts',
   };
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(
+        'https://static.pxl.ai/problem/data/regions.json',
+      );
+      originDatas.push(...data);
+      window.localStorage.setItem('originData', JSON.stringify(originDatas));
+      setViewDatas(originDatas.slice(0, 20));
+    })();
+  }, []);
+
   return (
     <Container>
       <Title>
