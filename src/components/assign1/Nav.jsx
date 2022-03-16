@@ -24,6 +24,7 @@ const Head = styled.nav`
   align-items: center;
   padding: 0 5rem;
   border-bottom: 2px solid #f3f4f3;
+  margin-bottom: 8rem;
   button {
     width: 9.7rem;
     cursor: pointer;

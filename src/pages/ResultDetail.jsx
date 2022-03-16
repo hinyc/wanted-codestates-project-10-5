@@ -81,8 +81,6 @@ const Body = styled.div`
 const DetailResult = styled.aside`
   width: 42rem;
   height: 100vh;
-  padding: 8rem;
-
   img {
     width: 24.8rem;
     // height: auto;
@@ -133,7 +131,7 @@ const ResultComponent = styled.article`
   width: 17rem;
   height: 33rem;
   background-color: yellow;
-  margin: 3rem;
+  margin: 0 3rem;
 `;
 
 export default ResultDetail;
