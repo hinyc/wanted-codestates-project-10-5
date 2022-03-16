@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import GlobalStyles from './GlobalStyles';
+import ImgCanvas from './pages/ImgCanvas';
 import Main from './pages/Main';
 import ResultDetail from './pages/ResultDetail';
 import styled from 'styled-components';
@@ -11,9 +12,11 @@ function App() {
   return (
     <Router>
       <GlobalStyles />
+
       <Wrapper>
         <Routes>
           <Route path="/" element={<Main />} />
+             <Route path="/imgCanvas" element={<ImgCanvas />} />
           <Route path="/search" element={<Search />} />
           <Route path="/result/:keyword" element={<Result />} />
           <Route path="/result-detail" element={<ResultDetail />} />
@@ -30,5 +33,6 @@ const Wrapper = styled.div`
   min-width: 500px;
   display: flex;
 `;
+
 
 export default App;

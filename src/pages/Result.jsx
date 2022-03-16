@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -60,4 +61,5 @@ const ButtonWrapper = styled.div`
   margin-top: 4.2rem;
   padding-bottom: 1rem;
 `;
+
 export default Result;
