@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 function MoreBtn(props) {
-  return <Button>more</Button>;
+  return <Button onClick={() => props.getMoreData.next()}>more</Button>;
 }
 const Button = styled.button`
   display: flex;
