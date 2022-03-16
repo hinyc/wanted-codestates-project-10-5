@@ -16,15 +16,19 @@ export default function ImgCanvas() {
 
   useEffect(() => {
     let ctx = ref.current.getContext('2d');
-    ctx.fillStyle = '#c7f4734a';
-    ctx.strokeStyle = '#1793b56b';
     if (drawState) {
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       dragArea.forEach((el) => {
+        ctx.fillStyle = '#c7f4734a';
+        ctx.strokeStyle = '#1793b56b';
         ctx.strokeRect(el[0], el[1], el[2], el[3]);
         ctx.fillRect(el[0], el[1], el[2], el[3]);
+        ctx.fillStyle = 'black';
+        ctx.font = '18px serif';
+        ctx.fillText(el[4], el[0] + 1, el[1] + 18);
       });
-
+      ctx.fillStyle = '#c7f4734a';
+      ctx.strokeStyle = '#1793b56b';
       ctx.strokeRect(
         startPoint[0],
         startPoint[1],
@@ -99,6 +103,11 @@ export default function ImgCanvas() {
 
   return (
     <Container>
+      <InfoBox>
+        {dragArea.map((el, idx) => (
+          <Info key={idx}>{el[4]}</Info>
+        ))}
+      </InfoBox>
       <Canvas
         width="900"
         height="1000"
@@ -123,6 +132,27 @@ export default function ImgCanvas() {
 const Container = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const InfoBox = styled.ul`
+  width: 200px;
+  height: auto;
+  min-height: 180px;
+  overflow: scroll;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 30px 0;
+`;
+
+const Info = styled.li`
+  width: 100%;
+  height: auto;
+  font-size: 2rem;
+  list-style: disc;
+  list-style-position: inside;
 `;
 
 const Canvas = styled.canvas`
