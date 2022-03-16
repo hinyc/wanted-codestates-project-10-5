@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/result" element={<Result />} />
+          <Route path="/result/:keyword" element={<Result />} />
           <Route path="/result-detail" element={<ResultDetail />} />
         </Routes>
       </Wrapper>

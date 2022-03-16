@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function ImageBox() {
+function ImageBox(props) {
+  const { name, image_url, price } = props.data;
+
   return (
     <Container>
-      <Image />
+      <Image src={image_url} />
       <Contents>
-        <Title>조끼_070</Title>
-        <Price>₩ 9,999,9999</Price>
+        <Title>{name}</Title>
+        <Price>₩ {price.toLocaleString('ko-KR')}</Price>
       </Contents>
     </Container>
   );
@@ -21,9 +23,7 @@ const Container = styled.div`
   border: 2px solid #eeefef;
   cursor: pointer;
 `;
-const Image = styled.img.attrs({
-  src: 'https://picsum.photos/400/400',
-})`
+const Image = styled.img`
   width: 100%;
   height: 27.6rem;
   border: 2px solid #eeefef;
