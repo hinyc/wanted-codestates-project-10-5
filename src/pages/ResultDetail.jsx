@@ -58,18 +58,20 @@ function ResultDetail(props) {
   // 검색 결과 리스트 데이터 필터링해서 저장
   useEffect(() => {
     const originDatas = JSON.parse(window.localStorage.getItem('originData'));
+    // const regionsData = JSON.parse(window.localStorage.getItem('regionsData'));
 
     const filteredData = originDatas.filter(({ category_names }) => {
       let flag = false;
-      for (const cat of category_names) {
-        if (cat === searchCategory) {
+      for (const name of category_names) {
+        if (name === searchCategory) {
           flag = true;
         }
       }
       return flag;
     });
+    console.log(filteredData[0]);
     setSearchResults(filteredData);
-  }, [searchKeyword, searchCategory]);
+  }, [searchCategory]);
 
   return (
     <Container>
@@ -97,16 +99,16 @@ function ResultDetail(props) {
           </div>
         </DetailResult>
         <ResultWrapper>
-          {/* {searchResults.map((productInfo, idx) => {
+          {searchResults.slice(0, 10).map((productInfo, idx) => {
             return <ImageBox key={idx} productInfo={productInfo} />;
-          })} */}
+          })}
+          {/* <ImageBox />
           <ImageBox />
           <ImageBox />
           <ImageBox />
           <ImageBox />
           <ImageBox />
-          <ImageBox />
-          <ImageBox />
+          <ImageBox /> */}
         </ResultWrapper>
       </Body>
     </Container>
