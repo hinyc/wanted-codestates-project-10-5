@@ -6,15 +6,20 @@ export default function ImgCanvas() {
   const [startPoint, setStartPoint] = useState([]);
   const [endPoint, setEndPoint] = useState([]);
   const [drawState, setDrawState] = useState(false);
+  const [addTextState, setAddTextState] = useState(false);
+  const [dragArea, setDragArea] = useState([]);
   const ref = useRef(null);
 
   useEffect(() => {
     let ctx = ref.current.getContext('2d');
-    ctx.fillStyle = '#d3eda33c';
-    ctx.strokeStyle = '#9cd8e96b';
+    ctx.fillStyle = '#c7f4734a';
+    ctx.strokeStyle = '#1793b56b';
     if (drawState) {
-
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      dragArea.forEach((el) => {
+        ctx.strokeRect(el[0], el[1], el[2], el[3]);
+        ctx.fillRect(el[0], el[1], el[2], el[3]);
+      });
 
       ctx.strokeRect(
         startPoint[0],
@@ -29,27 +34,41 @@ export default function ImgCanvas() {
         endPoint[1] - startPoint[1],
       );
     }
+    if (addTextState) {
+      console.log('a');
+      ctx.fillStyle = 'black';
+      ctx.font = '18px serif ';
+      ctx.fillText('good', startPoint[0] + 1, startPoint[1] + 18);
+      setAddTextState(false);
+    }
+  }, [dragArea, drawState, endPoint, startPoint]);
 
-  }, [drawState, endPoint, startPoint]);
+  useEffect(() => {});
 
-    // ctx.moveTo(100, 100);
+  //!
+  //!
 
-    //!
-
-
-    //!
-  }, [drawState, endPoint, startPoint]);
-  console.log(startPoint, endPoint, drawState);
   const draw = (e) => {
     const offsetX = e.target.offsetLeft;
     const offsetY = e.target.offsetTop;
     switch (e.type) {
       case 'mouseup':
         setEndPoint([e.pageX - offsetX, e.pageY - offsetY]);
-
         setDrawState(false);
+        setAddTextState(true);
+        setDragArea([
+          ...dragArea,
+          [
+            startPoint[0],
+            startPoint[1],
+            endPoint[0] - startPoint[0],
+            endPoint[1] - startPoint[1],
+          ],
+        ]);
+        // prompt();
         break;
       case 'mousedown':
+        console.log(dragArea);
         setDrawState(true);
         setStartPoint([e.pageX - offsetX, e.pageY - offsetY]);
         setEndPoint([]);
