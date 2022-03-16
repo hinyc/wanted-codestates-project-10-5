@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logoSrc from '../assets/logo_pxl.png';
@@ -7,21 +7,59 @@ import ImageBox from '../components/assign1/ImageBox';
 
 // 스니펫: rsf
 
+const dummyData = {
+  product_code: 1,
+  region_id: 2910,
+  image_url: 'https://static.pxl.ai/problem/images/VT-070.jpg',
+  gender: 'gender.unisex',
+  attributes: [
+    {
+      style: 'basic_or_minimal_or_normcore',
+    },
+    {
+      season: 'summer',
+    },
+    {
+      occasion: 'gym_or_outdoor',
+    },
+    {
+      fabric: 'knit_or_angora',
+    },
+    {
+      sense: 'sportive',
+    },
+    {
+      pattern: 'leopard',
+    },
+  ],
+  category_names: ['c1.tops', 'c2.outwears', 'c3.vests'],
+};
+
 function ResultDetail(props) {
   const navigate = useNavigate();
-  const c1 = 'ONE PIECE';
-  const attributesData = [
-    ['basic', 'style'],
-    ['dresses', 'style'],
-    ['nomcore', 'style'],
-    ['summer', 'season'],
-    ['gym', 'occasion'],
-    ['outdoor', 'occasion'],
-  ];
+  const [searchKeyword, setSearchKeyword] = useState(dummyData);
+  const [searchResults, setSearchResults] = useState([]); // 페이지 우측의 검색 결과 리스트 데이터
+  const [attributes, setAttributes] = useState([]);
 
   const moveToSearchPage = () => {
     navigate('/search');
   };
+
+  // Attributes 카테고리, 태그 배열에 담기
+  useEffect(() => {
+    const attrList = [];
+    searchKeyword.attributes.forEach((attr) => {
+      const [category, tags] = [
+        Object.keys(attr)[0],
+        Object.values(attr)[0].split('_or_'),
+      ];
+      tags.forEach((tag) =>
+        attrList.push([tag.toUpperCase(), category.toUpperCase()]),
+      );
+    });
+
+    setAttributes(attrList);
+  }, [searchKeyword]);
 
   return (
     <Container>
@@ -35,32 +73,22 @@ function ResultDetail(props) {
           <div>
             <img src={productSrc} alt="product detail view" />
             <p className="section-label">ITEMS</p>
-            <div className="category">{c1}</div>
+            <div className="category">
+              {searchKeyword.category_names[0].slice(3).toUpperCase()}
+            </div>
           </div>
           <Divider />
           <div>
             <p className="section-label">ATTRIBUTES</p>
             <Attributes>
-              <li className="attributes-item">
-                <p className="item-tag">#BASIC</p>
-                <p className="item-category">STYLE</p>
-              </li>
-              <li className="attributes-item">
-                <p className="item-tag">#DRESSES</p>
-                <p className="item-category">STYLE</p>
-              </li>
-              <li className="attributes-item">
-                <p className="item-tag">#NOMCORE</p>
-                <p className="item-category">STYLE</p>
-              </li>
-              <li className="attributes-item">
-                <p className="item-tag">#BASIC</p>
-                <p className="item-category">STYLE</p>
-              </li>
-              <li className="attributes-item">
-                <p className="item-tag">#BASIC</p>
-                <p className="item-category">STYLE</p>
-              </li>
+              {attributes.map(([tag, category], idx) => {
+                return (
+                  <li key={idx} className="attributes-item">
+                    <p className="item-tag">#{tag}</p>
+                    <p className="item-category">{category}</p>
+                  </li>
+                );
+              })}
             </Attributes>
           </div>
         </DetailResult>
