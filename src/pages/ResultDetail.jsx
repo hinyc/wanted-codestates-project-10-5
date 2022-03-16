@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logoSrc from '../assets/logo_pxl.png';
 import productSrc from '../assets/temp_product.png';
+import ImageBox from '../components/assign1/ImageBox';
 
 // 스니펫: rsf
 
@@ -41,35 +42,36 @@ function ResultDetail(props) {
             <p className="section-label">ATTRIBUTES</p>
             <Attributes>
               <li className="attributes-item">
-                <p>#BASIC</p>
-                <p>STYLE</p>
+                <p className="item-tag">#BASIC</p>
+                <p className="item-category">STYLE</p>
               </li>
-              <li>
-                <p>#DRESSES</p>
-                <p>STYLE</p>
+              <li className="attributes-item">
+                <p className="item-tag">#DRESSES</p>
+                <p className="item-category">STYLE</p>
               </li>
-              <li>
-                <p>#NOMCORE</p>
-                <p>STYLE</p>
+              <li className="attributes-item">
+                <p className="item-tag">#NOMCORE</p>
+                <p className="item-category">STYLE</p>
               </li>
-              <li>
-                <p>#BASIC</p>
-                <p>STYLE</p>
+              <li className="attributes-item">
+                <p className="item-tag">#BASIC</p>
+                <p className="item-category">STYLE</p>
               </li>
-              <li>
-                <p>#BASIC</p>
-                <p>STYLE</p>
+              <li className="attributes-item">
+                <p className="item-tag">#BASIC</p>
+                <p className="item-category">STYLE</p>
               </li>
             </Attributes>
           </div>
         </DetailResult>
         <ResultWrapper>
-          <ResultComponent />
-          <ResultComponent />
-          <ResultComponent />
-          <ResultComponent />
-          <ResultComponent />
-          <ResultComponent />
+          <ImageBox />
+          <ImageBox />
+          <ImageBox />
+          <ImageBox />
+          <ImageBox />
+          <ImageBox />
+          <ImageBox />
         </ResultWrapper>
       </Body>
     </Container>
@@ -101,18 +103,23 @@ const Head = styled.nav`
 const Body = styled.div`
   width: 100%;
   height: auto;
+  padding-bottom: 8rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
 const DetailResult = styled.aside`
-  width: 42rem;
+  width: 50rem;
+  min-width: 40rem;
   height: 100vh;
-  padding: 8rem;
+  padding: 0 8rem;
+  position: sticky;
+  top: 0;
 
   img {
-    width: 24.8rem;
-    // height: auto;
+    max-width: 100%;
+    width: 44rem;
+    height: auto;
   }
 
   .section-label {
@@ -136,7 +143,7 @@ const DetailResult = styled.aside`
 `;
 
 const Divider = styled.div`
-  width: 24.8rem;
+  width: 100%;
   height: 0;
   border-top: 0.15rem solid #f3f4f3;
   margin-top: 2.5rem;
@@ -144,23 +151,41 @@ const Divider = styled.div`
 `;
 const Attributes = styled.ul`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
+
+  .attributes-item {
+    width: min-content;
+    margin-right: 2.3rem;
+    margin-bottom: 1.3rem;
+  }
+  .item-tag {
+    color: #9d6ef5;
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 2.1rem;
+  }
+  .item-category {
+    color: #838383;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.6rem;
+    margin-top: 0.6rem;
+  }
 `;
 
 const ResultWrapper = styled.section`
   width: 100%;
-  max-width: 92rem;
+  max-width: 100rem;
   height: auto;
   display: flex;
   // justify-content: space-around;
   flex-wrap: wrap;
-`;
-const ResultComponent = styled.article`
-  width: 17rem;
-  height: 33rem;
-  background-color: yellow;
-  margin: 3rem;
+  margin: -2.5rem 0;
+
+  > div {
+    margin: 2.5rem;
+  }
 `;
 
 export default ResultDetail;
