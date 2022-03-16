@@ -23,12 +23,12 @@ function App() {
   );
 }
 const Wrapper = styled.div`
-  width: 100%;
+  position: relative;
+  width: 100vw;
   height: 100vh;
   max-width: 1440px;
   min-width: 500px;
   display: flex;
-  background-color: black;
 `;
 
 export default App;
