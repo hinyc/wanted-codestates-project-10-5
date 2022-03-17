@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 function ImageBox(props) {
   const { name, image_url, price } = props.data;
-
+  const setOnClick = () => {
+    props.setShowModal(true);
+    props.setImgUrl(image_url);
+  };
   return (
-    <Container>
+    <Container onClick={setOnClick}>
       <Image src={image_url} />
       <Contents>
         <Title>{name}</Title>

@@ -1,12 +1,14 @@
-
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 import MoreBtn from '../components/assign1/MoreBtn';
+import Modal from '../components/assign1/Modal';
 
 function Result(props) {
+  const [showModal, setShowModal] = useState(false);
+  const [imgUrl, setImgUrl] = useState('');
   const { keyword } = useParams();
   const originDatas = JSON.parse(window.localStorage.getItem('productsData'));
   let filteredData = useRef([]);
@@ -26,12 +28,26 @@ function Result(props) {
     );
     setViewDatas(filteredData.current.slice(0, 20));
   }, []);
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [showModal]);
   return (
     <Container>
       <Nav />
+      {showModal && <Modal setShowModal={setShowModal} imgUrl={imgUrl} />}
       <ResultWrapper>
         {viewDatas.map((data) => (
-          <ImageBox key={data.product_code} data={data} />
+          <ImageBox
+            key={data.product_code}
+            data={data}
+            setShowModal={setShowModal}
+            setImgUrl={setImgUrl}
+          />
         ))}
       </ResultWrapper>
       <ButtonWrapper>
