@@ -209,6 +209,8 @@ const EmptyResult = styled.div`
 const DetailResult = styled.aside`
   width: 50rem;
   min-width: 45rem;
+  max-width: 50rem;
+
   height: 100vh;
   padding: 0 8rem;
   position: sticky;

@@ -36,6 +36,10 @@ const SearchBox = styled.form`
   min-width: 45rem;
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    min-width: 40rem;
+  }
 `;
 const SearchBar = styled.input`
   width: 100%;

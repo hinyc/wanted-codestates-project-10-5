@@ -83,13 +83,18 @@ const Container = styled.div`
   background-color: #fff;
 `;
 const ResultWrapper = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 4rem;
+  display: grid;
+  gap: 6rem;
+  grid-template-columns: repeat(auto-fill, 200px);
+  justify-content: center;
   width: 100%;
   height: auto;
-  padding: 0 3rem;
+  padding: 0 25rem;
+
+  @media screen and (max-width: 1220px) {
+    padding: 0 10rem;
+    gap: 10rem;
+  }
 `;
 const ButtonWrapper = styled.div`
   width: 100%;
