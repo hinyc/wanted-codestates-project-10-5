@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import productSrc from '../assets/temp_product.png';
 import Nav from '../components/assign1/Nav';
@@ -34,15 +33,37 @@ const dummyData = {
 };
 
 function ResultDetail(props) {
-  const [searchKeyword, setSearchKeyword] = useState(dummyData);
+  const [searchProduct, setSearchProduct] = useState(dummyData);
   const [searchResults, setSearchResults] = useState([]); // 카테고리가 일치하는 검색 결과 데이터 리스트
   const [attributes, setAttributes] = useState([]);
   const [searchCategory, setSearchCategory] = useState('');
+  const [isValidProduct, setIsValidProduct] = useState(false);
 
   useEffect(() => {
-    // Attributes 카테고리, 태그 배열에 담기
+    const searchedKeyword = '4'; // props로 전달 받는 검색된 image_url 값 또는 product_code 값
+
+    const regionsData = JSON.parse(window.localStorage.getItem('regionsData'));
+    const productIndex = regionsData.findIndex(
+      (data) =>
+        data.image_url === searchedKeyword ||
+        data.product_code === parseInt(searchedKeyword),
+    );
+
+    // 존재하는 상품일 경우
+    if (productIndex > -1) {
+      setSearchProduct(regionsData[productIndex]);
+      setIsValidProduct(true);
+    } else {
+      // 존재하지 않는 상품일 경우
+      setSearchProduct({});
+      setIsValidProduct(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // 검색된 상품의 Attributes 카테고리, 태그 값 저장
     const attrList = [];
-    searchKeyword.attributes.forEach((attr) => {
+    searchProduct.attributes.forEach((attr) => {
       const [category, tags] = [
         Object.keys(attr)[0],
         Object.values(attr)[0].split('_or_'),
@@ -52,27 +73,28 @@ function ResultDetail(props) {
 
     setAttributes(attrList);
 
-    // c1 카테고리 값 상태 값으로 저장
-    setSearchCategory(searchKeyword.category_names[0].slice(3));
-  }, [searchKeyword]);
+    // c1 카테고리 값을 상태 값으로 저장
+    const c1 = searchProduct.category_names[0].slice(3);
+    setSearchCategory(c1);
 
-  // 검색 결과 리스트 데이터 필터링해서 저장
-  useEffect(() => {
-    const originDatas = JSON.parse(window.localStorage.getItem('originData'));
-    // const regionsData = JSON.parse(window.localStorage.getItem('regionsData'));
+    // c1 카테고리에 해당하는 데이터 필터링해서 상태 값 업데이트
+    const productsData = JSON.parse(
+      window.localStorage.getItem('productsData'),
+    );
 
-    const filteredData = originDatas.filter(({ category_names }) => {
+    const filteredData = productsData.filter(({ category_names }) => {
       let flag = false;
       for (const name of category_names) {
-        if (name === searchCategory) {
+        if (name.slice(3) === c1) {
           flag = true;
         }
       }
       return flag;
     });
-    console.log(filteredData[0]);
+
     setSearchResults(filteredData);
-  }, [searchCategory]);
+    console.log(filteredData);
+  }, [searchProduct]);
 
   return (
     <Container>
@@ -80,7 +102,7 @@ function ResultDetail(props) {
       <Body>
         <DetailResult>
           <div>
-            <img src={productSrc} alt="product detail view" />
+            <img src={searchProduct.image_url} alt="product detail view" />
             <p className="section-label">ITEMS</p>
             <div className="category">{searchCategory.toUpperCase()}</div>
           </div>
@@ -100,8 +122,8 @@ function ResultDetail(props) {
           </div>
         </DetailResult>
         <ResultWrapper>
-          {searchResults.slice(0, 10).map((productInfo, idx) => {
-            return <ImageBox key={idx} productInfo={productInfo} />;
+          {searchResults.map((productInfo, idx) => {
+            return <ImageBox key={idx} data={productInfo} />;
           })}
           {/* <ImageBox />
           <ImageBox />
@@ -140,7 +162,7 @@ const DetailResult = styled.aside`
   img {
     max-width: 100%;
     width: 44rem;
-    height: auto;
+    min-height: 34rem;
   }
 
   .section-label {
