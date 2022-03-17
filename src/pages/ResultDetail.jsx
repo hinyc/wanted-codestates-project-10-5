@@ -122,6 +122,11 @@ function ResultDetail(props) {
     })();
   }, []);
   DisableScroll(showModal);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  };
+
   return (
     <Container>
       <Nav />
@@ -175,6 +180,9 @@ function ResultDetail(props) {
           </>
         )}
       </Body>
+      {/* <div style={{ width: '100%' }}>
+        <JumpToTopBtn onClick={scrollToTop}>&#94;</JumpToTopBtn>
+      </div> */}
     </Container>
   );
 }
@@ -200,7 +208,7 @@ const EmptyResult = styled.div`
 
 const DetailResult = styled.aside`
   width: 50rem;
-  min-width: 40rem;
+  min-width: 45rem;
   height: 100vh;
   padding: 0 8rem;
   position: sticky;
@@ -286,6 +294,20 @@ const ButtonWrapper = styled.div`
   justify-content: center;
   margin-top: 4.2rem;
   padding-bottom: 1rem;
+`;
+const JumpToTopBtn = styled.button`
+  position: sticky;
+  // bottom: 3rem;
+  top: -3rem;
+  right: 3rem;
+
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: #9d6ef5;
+  color: #fff;
+  font-size: 3rem;
+  line-height: 5.5rem;
 `;
 
 export default ResultDetail;

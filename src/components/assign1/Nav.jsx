@@ -22,14 +22,19 @@ function Nav() {
 const Head = styled.nav`
   position: relative;
   width: 100%;
+  min-width: 45rem;
   height: 8rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 5rem;
+  // padding: 0 5rem;
+  padding: 0 10vw;
   border-bottom: 2px solid #f3f4f3;
   margin-bottom: 8rem;
+
   button {
     width: 9.7rem;
+    // margin-right: 40%;
     cursor: pointer;
     img {
       width: inherit;
@@ -37,7 +42,7 @@ const Head = styled.nav`
   }
 `;
 const SearchBarWrapper = styled.div`
-  position: absolute;
-  right: 5rem;
+  // position: absolute;
+  // right: 5rem;
 `;
 export default Nav;

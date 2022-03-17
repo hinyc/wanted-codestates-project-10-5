@@ -38,11 +38,11 @@ function App() {
   );
 }
 const Wrapper = styled.div`
-  position: relative;
+  // position: relative;
   width: 100vw;
   height: 100vh;
-  max-width: 1440px;
-  min-width: 500px;
+  // max-width: 1440px;
+  min-width: 680px;
   display: flex;
 `;
 

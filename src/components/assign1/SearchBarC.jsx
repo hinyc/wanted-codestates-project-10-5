@@ -26,7 +26,7 @@ function SearchBarC(props) {
 
   return (
     <SearchBox onSubmit={setOnsubmit}>
-      <SearchBar placeholder="IMAGE URL or KEYWORK" ref={targetRef} />
+      <SearchBar placeholder="IMAGE URL or KEYWORD" ref={targetRef} />
       {props.hideBtn ? <></> : <Button type="submit">search</Button>}
     </SearchBox>
   );
