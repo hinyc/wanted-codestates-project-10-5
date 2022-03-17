@@ -26,7 +26,7 @@ function SearchBarC(props) {
 
   return (
     <SearchBox onSubmit={setOnsubmit}>
-      <SearchBar placeholder="IMAGE URL or KEYWORK" ref={targetRef} />
+      <SearchBar placeholder="IMAGE URL or KEYWORD" ref={targetRef} />
       {props.hideBtn ? <></> : <Button type="submit">search</Button>}
     </SearchBox>
   );
@@ -36,6 +36,10 @@ const SearchBox = styled.form`
   min-width: 45rem;
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    min-width: 40rem;
+  }
 `;
 const SearchBar = styled.input`
   width: 100%;
