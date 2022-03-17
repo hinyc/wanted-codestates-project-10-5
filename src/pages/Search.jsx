@@ -69,7 +69,9 @@ function Search(props) {
       if (keywordList[res]) {
         const keyword = keywordList[res];
         navigate(`/result/${keyword}`);
-      } else throw new Error('해당하는 상품이 없습니다.');
+      } else {
+        navigate(`/result-detail?keyword=${res}`);
+      }
     } catch (err) {
       console.log(err);
     } finally {
