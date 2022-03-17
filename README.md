@@ -2,7 +2,7 @@
 
 ## 🌈 &nbsp; wanted-codestates-project-10-1
 
-### 📎 &nbsp; [과제링크]()
+### 📎 &nbsp; [과제링크](https://xenodochial-goldwasser-50a9b3.netlify.app)
 
 <div align="center">
 <img width="300px" src=""/>
