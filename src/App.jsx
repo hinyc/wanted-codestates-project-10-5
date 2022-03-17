@@ -16,7 +16,7 @@ function App() {
       <Wrapper>
         <Routes>
           <Route path="/" element={<Main />} />
-             <Route path="/imgCanvas" element={<ImgCanvas />} />
+          <Route path="/imgCanvas" element={<ImgCanvas />} />
           <Route path="/search" element={<Search />} />
           <Route path="/result/:keyword" element={<Result />} />
           <Route path="/result-detail" element={<ResultDetail />} />
@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   max-width: 1440px;
   min-width: 500px;
   display: flex;
+  justify-content: center;
 `;
-
 
 export default App;
