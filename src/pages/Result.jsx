@@ -23,11 +23,12 @@ function Result(props) {
     })();
   }, []);
   useEffect(() => {
+    filteredData.current = [];
     filteredData.current.push(
       ...originDatas.filter((obj) => obj.category_names.includes(keyword)),
     );
     setViewDatas(filteredData.current.slice(0, 20));
-  }, []);
+  }, [keyword]);
 
   useEffect(() => {
     if (showModal) {
