@@ -5,6 +5,7 @@ import keywordList from '../../data/keywordList';
 function SearchBarC(props) {
   const targetRef = useRef(null);
   const navigate = useNavigate();
+
   const setOnsubmit = (e) => {
     e.preventDefault();
     const res = targetRef.current.value;
@@ -12,7 +13,9 @@ function SearchBarC(props) {
       if (keywordList[res]) {
         const keyword = keywordList[res];
         navigate(`/result/${keyword}`);
-      } else throw new Error('해당하는 상품이 없습니다.');
+      } else {
+        navigate(`/result-detail?keyword=${res}`);
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -20,6 +23,7 @@ function SearchBarC(props) {
       targetRef.current.focus();
     }
   };
+
   return (
     <SearchBox onSubmit={setOnsubmit}>
       <SearchBar placeholder="IMAGE URL or KEYWORK" ref={targetRef} />

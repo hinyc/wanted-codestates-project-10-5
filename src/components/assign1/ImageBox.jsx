@@ -4,6 +4,7 @@ import styled from 'styled-components';
 function ImageBox(props) {
   const { name, image_url, price } = props.data;
   const setOnClick = () => {
+    console.log(1);
     props.setShowModal(true);
     props.setImgUrl(image_url);
   };
