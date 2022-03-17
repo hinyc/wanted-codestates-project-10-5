@@ -1,21 +1,36 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import GlobalStyles from './GlobalStyles';
+import ImgCanvas from './pages/ImgCanvas';
 import Main from './pages/Main';
 import ResultDetail from './pages/ResultDetail';
 import styled from 'styled-components';
 import Search from './pages/Search';
 import Result from './pages/Result';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <Router>
       <GlobalStyles />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Wrapper>
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/imgCanvas" element={<ImgCanvas />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/result" element={<Result />} />
+          <Route path="/result/:keyword" element={<Result />} />
           <Route path="/result-detail" element={<ResultDetail />} />
         </Routes>
       </Wrapper>
@@ -23,12 +38,12 @@ function App() {
   );
 }
 const Wrapper = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
-  max-width: 1440px;
-  min-width: 500px;
+  // max-width: 1440px;
+  min-width: 740px;
   display: flex;
-  background-color: black;
+  justify-content: center;
 `;
 
 export default App;
