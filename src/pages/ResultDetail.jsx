@@ -1,9 +1,10 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import productSrc from '../assets/temp_product.png';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
+import { toast } from 'react-toastify';
+import MoreBtn from '../components/assign1/MoreBtn';
 
 const dummyData = {
   product_code: 1,
@@ -34,15 +35,46 @@ const dummyData = {
 };
 
 function ResultDetail(props) {
-  const [searchKeyword, setSearchKeyword] = useState(dummyData);
-  const [searchResults, setSearchResults] = useState([]); // 카테고리가 일치하는 검색 결과 데이터 리스트
+  const [searchProduct, setSearchProduct] = useState(dummyData);
+  const [viewDatas, setViewDatas] = useState([]); // 화면에 보여줄 검색 결과 데이터
   const [attributes, setAttributes] = useState([]);
   const [searchCategory, setSearchCategory] = useState('');
+  const [isValidProduct, setIsValidProduct] = useState(false);
+  const [searchParams] = useSearchParams();
+  const savedFilteredData = useRef([]); // 카테고리가 일치하는 검색 결과 데이터 리스트
 
   useEffect(() => {
-    // Attributes 카테고리, 태그 배열에 담기
+    // const word = keyword; // props로 전달 받는 검색된 image_url 값 또는 product_code 값
+    const searchedKeyword = searchParams.get('keyword');
+
+    if (!searchedKeyword) {
+      setIsValidProduct(false);
+      return;
+    }
+
+    const regionsData = JSON.parse(window.localStorage.getItem('regionsData'));
+    const productIndex = regionsData.findIndex(
+      (data) =>
+        data.image_url === searchedKeyword ||
+        data.product_code === parseInt(searchedKeyword),
+    );
+
+    // 존재하는 상품일 경우
+    if (productIndex > -1) {
+      setSearchProduct(regionsData[productIndex]);
+      setIsValidProduct(true);
+    } else {
+      toast.error('error hi');
+      // 존재하지 않는 상품일 경우
+      // setSearchProduct({});
+      setIsValidProduct(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // 검색된 상품의 Attributes 카테고리, 태그 값 저장
     const attrList = [];
-    searchKeyword.attributes.forEach((attr) => {
+    searchProduct.attributes.forEach((attr) => {
       const [category, tags] = [
         Object.keys(attr)[0],
         Object.values(attr)[0].split('_or_'),
@@ -52,65 +84,83 @@ function ResultDetail(props) {
 
     setAttributes(attrList);
 
-    // c1 카테고리 값 상태 값으로 저장
-    setSearchCategory(searchKeyword.category_names[0].slice(3));
-  }, [searchKeyword]);
+    // c1 카테고리 값을 상태 값으로 저장
+    const c1 = searchProduct.category_names[0].slice(3);
+    setSearchCategory(c1);
 
-  // 검색 결과 리스트 데이터 필터링해서 저장
-  useEffect(() => {
-    const originDatas = JSON.parse(window.localStorage.getItem('originData'));
-    // const regionsData = JSON.parse(window.localStorage.getItem('regionsData'));
+    // c1 카테고리에 해당하는 데이터 필터링해서 상태 값 업데이트
+    const productsData = JSON.parse(
+      window.localStorage.getItem('productsData'),
+    );
 
-    const filteredData = originDatas.filter(({ category_names }) => {
-      let flag = false;
-      for (const name of category_names) {
-        if (name === searchCategory) {
-          flag = true;
+    savedFilteredData.current.push(
+      ...productsData.filter(({ category_names }) => {
+        let flag = false;
+        for (const name of category_names) {
+          if (name.slice(3) === c1) {
+            flag = true;
+          }
         }
+        return flag;
+      }),
+    );
+
+    setViewDatas(savedFilteredData.current.slice(0, 20));
+  }, [searchProduct]);
+
+  const getMoreData = useMemo(() => {
+    return (function* () {
+      let loadCtn = 20;
+      while (true) {
+        setViewDatas(savedFilteredData.current.slice(0, (loadCtn += 20)));
+        yield;
       }
-      return flag;
-    });
-    console.log(filteredData[0]);
-    setSearchResults(filteredData);
-  }, [searchCategory]);
+    })();
+  }, []);
 
   return (
     <Container>
       <Nav />
       <Body>
-        <DetailResult>
-          <div>
-            <img src={productSrc} alt="product detail view" />
-            <p className="section-label">ITEMS</p>
-            <div className="category">{searchCategory.toUpperCase()}</div>
-          </div>
-          <Divider />
-          <div>
-            <p className="section-label">ATTRIBUTES</p>
-            <Attributes>
-              {attributes.map(([tag, category], idx) => {
-                return (
-                  <li key={idx} className="attributes-item">
-                    <p className="item-tag">#{tag.toUpperCase()}</p>
-                    <p className="item-category">{category.toUpperCase()}</p>
-                  </li>
-                );
-              })}
-            </Attributes>
-          </div>
-        </DetailResult>
-        <ResultWrapper>
-          {searchResults.slice(0, 10).map((productInfo, idx) => {
-            return <ImageBox key={idx} productInfo={productInfo} />;
-          })}
-          {/* <ImageBox />
-          <ImageBox />
-          <ImageBox />
-          <ImageBox />
-          <ImageBox />
-          <ImageBox />
-          <ImageBox /> */}
-        </ResultWrapper>
+        {!isValidProduct ? (
+          <EmptyResult>검색된 상품 결과가 없습니다 ❌</EmptyResult>
+        ) : (
+          <>
+            <DetailResult>
+              <div>
+                <img src={searchProduct.image_url} alt="product detail view" />
+                <p className="section-label">ITEMS</p>
+                <div className="category">{searchCategory.toUpperCase()}</div>
+              </div>
+              <Divider />
+              <div>
+                <p className="section-label">ATTRIBUTES</p>
+                <Attributes>
+                  {attributes.map(([tag, category], idx) => {
+                    return (
+                      <li key={idx} className="attributes-item">
+                        <p className="item-tag">#{tag.toUpperCase()}</p>
+                        <p className="item-category">
+                          {category.toUpperCase()}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </Attributes>
+              </div>
+            </DetailResult>
+            <SimilarResult>
+              <ResultWrapper>
+                {viewDatas.map((productInfo, idx) => {
+                  return <ImageBox key={idx} data={productInfo} />;
+                })}
+              </ResultWrapper>
+              <ButtonWrapper>
+                <MoreBtn getMoreData={getMoreData} />
+              </ButtonWrapper>
+            </SimilarResult>
+          </>
+        )}
       </Body>
     </Container>
   );
@@ -124,11 +174,17 @@ const Container = styled.div`
 const Body = styled.div`
   width: 100%;
   height: auto;
-  padding-bottom: 8rem;
+  min-height: calc(80vh - 8rem); // Nav 바 margin-bottom 값 빼기
+  // padding-bottom: 8rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
+const EmptyResult = styled.div`
+  font-size: 3.5rem;
+  font-weight: 500;
+`;
+
 const DetailResult = styled.aside`
   width: 50rem;
   min-width: 40rem;
@@ -140,7 +196,7 @@ const DetailResult = styled.aside`
   img {
     max-width: 100%;
     width: 44rem;
-    height: auto;
+    height: 34rem;
   }
 
   .section-label {
@@ -194,6 +250,11 @@ const Attributes = styled.ul`
     margin-top: 0.6rem;
   }
 `;
+const SimilarResult = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const ResultWrapper = styled.section`
   width: 100%;
   max-width: 100rem;
@@ -205,6 +266,13 @@ const ResultWrapper = styled.section`
   > div {
     margin: 2.5rem;
   }
+`;
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 4.2rem;
+  padding-bottom: 1rem;
 `;
 
 export default ResultDetail;
