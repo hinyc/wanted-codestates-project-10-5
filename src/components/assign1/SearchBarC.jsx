@@ -1,55 +1,10 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
+import keywordList from '../../data/keywordList';
 function SearchBarC(props) {
-  const keywordList = {
-    상의: 'c1.tops',
-    tops: 'c1.tops',
-    하의: 'c1.bottoms',
-    bottoms: 'c1.bottoms',
-    바지: 'c2.pants',
-    pants: 'c2.pants',
-    원피스: 'c2.dresses',
-    드레스: 'c2.dresses',
-    dresses: 'c2.dresses',
-    신발: 'c2.shoes',
-    shoes: 'c2.shoes',
-    겉옷: ['c2.outwears', 'c3.outer'],
-    outwears: 'c2.outwears',
-    outwear: 'c2.outwears',
-    조끼: 'c3.vests',
-    베스트: 'c3.vests',
-    vests: 'c3.vests',
-    자켓: 'c3.jackets',
-    jackets: 'c3.jackets',
-    코트: 'c3.coats',
-    coats: 'c3.coats',
-    니트: 'c3.knitwear',
-    knit: 'c3.knitwear',
-    knitwear: 'c3.knitwear',
-    아우터: 'c3.outer',
-    outer: 'c3.outer',
-    outers: 'c3.outer',
-    셔츠: 'c3.shirts',
-    shirts: 'c3.shirts',
-    후드집업: 'c3.sweater',
-    후드티: 'c3.sweater',
-    맨투맨: 'c3.sweater',
-    스웨터: 'c3.sweater',
-    sweaters: 'c3.sweater',
-    sweater: 'c3.sweater',
-    가디건: 'c3.cardigans',
-    cardigans: 'c3.cardigans',
-    블라우스: 'c3.blouses',
-    blouses: 'c3.blouses',
-    치마: 'c3.skirts',
-    스커트: 'c3.skirts',
-    skirts: 'c3.skirts',
-  };
   const targetRef = useRef(null);
   const navigate = useNavigate();
-
   const setOnsubmit = (e) => {
     e.preventDefault();
     const res = targetRef.current.value;
