@@ -16,23 +16,6 @@ function Search(props) {
     })();
   }, []);
 
-  const setOnSearch = () => {
-    const res = targetRef.current.value;
-    try {
-      if (keywordList[res]) {
-        const keyword = keywordList[res];
-        navigate(`/result/${keyword}`);
-      } else {
-        navigate(`/result-detail?keyword=${res}`);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      targetRef.current.value = '';
-      targetRef.current.focus();
-    }
-  };
-
   return (
     <Container>
       <Title>

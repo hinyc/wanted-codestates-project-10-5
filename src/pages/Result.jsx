@@ -6,6 +6,7 @@ import ImageBox from '../components/assign1/ImageBox';
 import MoreBtn from '../components/assign1/MoreBtn';
 import Modal from '../components/assign1/Modal';
 import Loader from '../components/assign1/Loader';
+import DisableScroll from '../util/disableScroll';
 
 function Result(props) {
   const [showModal, setShowModal] = useState(false);
@@ -46,13 +47,8 @@ function Result(props) {
     // eslint-disable-next-line
   }, [keyword]);
 
-  useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [showModal]);
+  DisableScroll(showModal);
+
   return (
     <Container>
       <Nav />

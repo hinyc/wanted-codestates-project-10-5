@@ -5,6 +5,8 @@ import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 import { toast } from 'react-toastify';
 import MoreBtn from '../components/assign1/MoreBtn';
+import Modal from '../components/assign1/Modal';
+import DisableScroll from '../util/disableScroll';
 
 const dummyData = {
   product_code: 1,
@@ -35,6 +37,8 @@ const dummyData = {
 };
 
 function ResultDetail(props) {
+  const [showModal, setShowModal] = useState(false);
+  const [imgUrl, setImgUrl] = useState('');
   const [searchProduct, setSearchProduct] = useState(dummyData);
   const [viewDatas, setViewDatas] = useState([]); // 화면에 보여줄 검색 결과 데이터
   const [attributes, setAttributes] = useState([]);
@@ -42,10 +46,10 @@ function ResultDetail(props) {
   const [isValidProduct, setIsValidProduct] = useState(false);
   const [searchParams] = useSearchParams();
   const savedFilteredData = useRef([]); // 카테고리가 일치하는 검색 결과 데이터 리스트
+  const searchedKeyword = searchParams.get('keyword');
 
   useEffect(() => {
     // const word = keyword; // props로 전달 받는 검색된 image_url 값 또는 product_code 값
-    const searchedKeyword = searchParams.get('keyword');
 
     if (!searchedKeyword) {
       setIsValidProduct(false);
@@ -69,7 +73,7 @@ function ResultDetail(props) {
       // setSearchProduct({});
       setIsValidProduct(false);
     }
-  }, []);
+  }, [searchedKeyword]);
 
   useEffect(() => {
     // 검색된 상품의 Attributes 카테고리, 태그 값 저장
@@ -117,10 +121,11 @@ function ResultDetail(props) {
       }
     })();
   }, []);
-
+  DisableScroll(showModal);
   return (
     <Container>
       <Nav />
+      {showModal && <Modal setShowModal={setShowModal} imgUrl={imgUrl} />}
       <Body>
         {!isValidProduct ? (
           <EmptyResult>검색된 상품 결과가 없습니다 ❌</EmptyResult>
@@ -152,7 +157,15 @@ function ResultDetail(props) {
             <SimilarResult>
               <ResultWrapper>
                 {viewDatas.map((productInfo, idx) => {
-                  return <ImageBox key={idx} data={productInfo} />;
+                  return (
+                    <ImageBox
+                      key={idx}
+                      data={productInfo}
+                      image_url={productInfo.image_url}
+                      setImgUrl={setImgUrl}
+                      setShowModal={setShowModal}
+                    />
+                  );
                 })}
               </ResultWrapper>
               <ButtonWrapper>
