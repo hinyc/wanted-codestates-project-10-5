@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import productSrc from '../assets/temp_product.png';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
+import { toast } from 'react-toastify';
 
 const dummyData = {
   product_code: 1,
@@ -38,9 +39,16 @@ function ResultDetail(props) {
   const [attributes, setAttributes] = useState([]);
   const [searchCategory, setSearchCategory] = useState('');
   const [isValidProduct, setIsValidProduct] = useState(false);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const searchedKeyword = '4'; // props로 전달 받는 검색된 image_url 값 또는 product_code 값
+    // const word = keyword; // props로 전달 받는 검색된 image_url 값 또는 product_code 값
+    const searchedKeyword = searchParams.get('keyword');
+
+    if (!searchedKeyword) {
+      setIsValidProduct(false);
+      return;
+    }
 
     const regionsData = JSON.parse(window.localStorage.getItem('regionsData'));
     const productIndex = regionsData.findIndex(
@@ -54,8 +62,9 @@ function ResultDetail(props) {
       setSearchProduct(regionsData[productIndex]);
       setIsValidProduct(true);
     } else {
+      toast.error('error hi');
       // 존재하지 않는 상품일 경우
-      setSearchProduct({});
+      // setSearchProduct({});
       setIsValidProduct(false);
     }
   }, []);
@@ -93,46 +102,46 @@ function ResultDetail(props) {
     });
 
     setSearchResults(filteredData);
-    console.log(filteredData);
   }, [searchProduct]);
 
   return (
     <Container>
       <Nav />
       <Body>
-        <DetailResult>
-          <div>
-            <img src={searchProduct.image_url} alt="product detail view" />
-            <p className="section-label">ITEMS</p>
-            <div className="category">{searchCategory.toUpperCase()}</div>
-          </div>
-          <Divider />
-          <div>
-            <p className="section-label">ATTRIBUTES</p>
-            <Attributes>
-              {attributes.map(([tag, category], idx) => {
-                return (
-                  <li key={idx} className="attributes-item">
-                    <p className="item-tag">#{tag.toUpperCase()}</p>
-                    <p className="item-category">{category.toUpperCase()}</p>
-                  </li>
-                );
+        {!isValidProduct ? (
+          <EmptyResult>검색된 상품 결과가 없습니다 ❌</EmptyResult>
+        ) : (
+          <>
+            <DetailResult>
+              <div>
+                <img src={searchProduct.image_url} alt="product detail view" />
+                <p className="section-label">ITEMS</p>
+                <div className="category">{searchCategory.toUpperCase()}</div>
+              </div>
+              <Divider />
+              <div>
+                <p className="section-label">ATTRIBUTES</p>
+                <Attributes>
+                  {attributes.map(([tag, category], idx) => {
+                    return (
+                      <li key={idx} className="attributes-item">
+                        <p className="item-tag">#{tag.toUpperCase()}</p>
+                        <p className="item-category">
+                          {category.toUpperCase()}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </Attributes>
+              </div>
+            </DetailResult>
+            <ResultWrapper>
+              {searchResults.map((productInfo, idx) => {
+                return <ImageBox key={idx} data={productInfo} />;
               })}
-            </Attributes>
-          </div>
-        </DetailResult>
-        <ResultWrapper>
-          {searchResults.map((productInfo, idx) => {
-            return <ImageBox key={idx} data={productInfo} />;
-          })}
-          {/* <ImageBox />
-          <ImageBox />
-          <ImageBox />
-          <ImageBox />
-          <ImageBox />
-          <ImageBox />
-          <ImageBox /> */}
-        </ResultWrapper>
+            </ResultWrapper>
+          </>
+        )}
       </Body>
     </Container>
   );
@@ -146,11 +155,17 @@ const Container = styled.div`
 const Body = styled.div`
   width: 100%;
   height: auto;
+  min-height: calc(80vh - 8rem); // Nav 바 margin-bottom 값 빼기
   padding-bottom: 8rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
+const EmptyResult = styled.div`
+  font-size: 3.5rem;
+  font-weight: 500;
+`;
+
 const DetailResult = styled.aside`
   width: 50rem;
   min-width: 40rem;
@@ -162,7 +177,7 @@ const DetailResult = styled.aside`
   img {
     max-width: 100%;
     width: 44rem;
-    min-height: 34rem;
+    height: 34rem;
   }
 
   .section-label {
