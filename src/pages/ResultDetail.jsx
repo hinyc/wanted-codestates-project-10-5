@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 import { toast } from 'react-toastify';
+import MoreBtn from '../components/assign1/MoreBtn';
 
 const dummyData = {
   product_code: 1,
@@ -35,11 +36,12 @@ const dummyData = {
 
 function ResultDetail(props) {
   const [searchProduct, setSearchProduct] = useState(dummyData);
-  const [searchResults, setSearchResults] = useState([]); // 카테고리가 일치하는 검색 결과 데이터 리스트
+  const [viewDatas, setViewDatas] = useState([]); // 화면에 보여줄 검색 결과 데이터
   const [attributes, setAttributes] = useState([]);
   const [searchCategory, setSearchCategory] = useState('');
   const [isValidProduct, setIsValidProduct] = useState(false);
   const [searchParams] = useSearchParams();
+  const savedFilteredData = useRef([]); // 카테고리가 일치하는 검색 결과 데이터 리스트
 
   useEffect(() => {
     // const word = keyword; // props로 전달 받는 검색된 image_url 값 또는 product_code 값
@@ -91,18 +93,30 @@ function ResultDetail(props) {
       window.localStorage.getItem('productsData'),
     );
 
-    const filteredData = productsData.filter(({ category_names }) => {
-      let flag = false;
-      for (const name of category_names) {
-        if (name.slice(3) === c1) {
-          flag = true;
+    savedFilteredData.current.push(
+      ...productsData.filter(({ category_names }) => {
+        let flag = false;
+        for (const name of category_names) {
+          if (name.slice(3) === c1) {
+            flag = true;
+          }
         }
-      }
-      return flag;
-    });
+        return flag;
+      }),
+    );
 
-    setSearchResults(filteredData);
+    setViewDatas(savedFilteredData.current.slice(0, 20));
   }, [searchProduct]);
+
+  const getMoreData = useMemo(() => {
+    return (function* () {
+      let loadCtn = 20;
+      while (true) {
+        setViewDatas(savedFilteredData.current.slice(0, (loadCtn += 20)));
+        yield;
+      }
+    })();
+  }, []);
 
   return (
     <Container>
@@ -135,11 +149,16 @@ function ResultDetail(props) {
                 </Attributes>
               </div>
             </DetailResult>
-            <ResultWrapper>
-              {searchResults.map((productInfo, idx) => {
-                return <ImageBox key={idx} data={productInfo} />;
-              })}
-            </ResultWrapper>
+            <SimilarResult>
+              <ResultWrapper>
+                {viewDatas.map((productInfo, idx) => {
+                  return <ImageBox key={idx} data={productInfo} />;
+                })}
+              </ResultWrapper>
+              <ButtonWrapper>
+                <MoreBtn getMoreData={getMoreData} />
+              </ButtonWrapper>
+            </SimilarResult>
           </>
         )}
       </Body>
@@ -156,7 +175,7 @@ const Body = styled.div`
   width: 100%;
   height: auto;
   min-height: calc(80vh - 8rem); // Nav 바 margin-bottom 값 빼기
-  padding-bottom: 8rem;
+  // padding-bottom: 8rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -231,6 +250,11 @@ const Attributes = styled.ul`
     margin-top: 0.6rem;
   }
 `;
+const SimilarResult = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const ResultWrapper = styled.section`
   width: 100%;
   max-width: 100rem;
@@ -242,6 +266,13 @@ const ResultWrapper = styled.section`
   > div {
     margin: 2.5rem;
   }
+`;
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 4.2rem;
+  padding-bottom: 1rem;
 `;
 
 export default ResultDetail;
