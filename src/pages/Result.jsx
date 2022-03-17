@@ -1,15 +1,18 @@
-
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 import MoreBtn from '../components/assign1/MoreBtn';
+import Modal from '../components/assign1/Modal';
+import Loader from '../components/assign1/Loader';
 
 function Result(props) {
+  const [showModal, setShowModal] = useState(false);
+  const [imgUrl, setImgUrl] = useState('');
   const { keyword } = useParams();
   const originDatas = JSON.parse(window.localStorage.getItem('productsData'));
-  let filteredData = useRef([]);
+  const filteredData = useRef([]);
   const [viewDatas, setViewDatas] = useState([]);
   const getMoreData = useMemo(() => {
     return (function* () {
@@ -20,23 +23,61 @@ function Result(props) {
       }
     })();
   }, []);
+
   useEffect(() => {
-    filteredData.current.push(
-      ...originDatas.filter((obj) => obj.category_names.includes(keyword)),
-    );
+    filteredData.current = [];
+    if (keyword.includes(',')) {
+      const keywordArr = keyword.split(',');
+      filteredData.current.push(
+        // eslint-disable-next-line
+        ...originDatas.filter((obj) => {
+          for (const key of keywordArr) {
+            return obj.category_names.includes(key);
+          }
+        }),
+      );
+    } else {
+      filteredData.current.push(
+        ...originDatas.filter((obj) => obj.category_names.includes(keyword)),
+      );
+    }
+
     setViewDatas(filteredData.current.slice(0, 20));
-  }, []);
+    // eslint-disable-next-line
+  }, [keyword]);
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [showModal]);
   return (
     <Container>
       <Nav />
+      {showModal && <Modal setShowModal={setShowModal} imgUrl={imgUrl} />}
       <ResultWrapper>
-        {viewDatas.map((data) => (
-          <ImageBox key={data.product_code} data={data} />
-        ))}
+        {viewDatas.length ? (
+          viewDatas.map((data) => (
+            <ImageBox
+              key={data.product_code}
+              data={data}
+              setShowModal={setShowModal}
+              setImgUrl={setImgUrl}
+            />
+          ))
+        ) : (
+          <Loader type={'spin'} color={'rgb(96, 236, 145)'} />
+        )}
       </ResultWrapper>
-      <ButtonWrapper>
-        <MoreBtn getMoreData={getMoreData} />
-      </ButtonWrapper>
+      {viewDatas.length ? (
+        <ButtonWrapper>
+          <MoreBtn getMoreData={getMoreData} />
+        </ButtonWrapper>
+      ) : (
+        <Loader type={'spin'} color={'rgb(96, 236, 145)'} />
+      )}
     </Container>
   );
 }
