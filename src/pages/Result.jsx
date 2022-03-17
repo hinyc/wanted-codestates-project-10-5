@@ -24,10 +24,24 @@ function Result(props) {
   }, []);
   useEffect(() => {
     filteredData.current = [];
-    filteredData.current.push(
-      ...originDatas.filter((obj) => obj.category_names.includes(keyword)),
-    );
+    if (keyword.includes(',')) {
+      const keywordArr = keyword.split(',');
+      filteredData.current.push(
+        // eslint-disable-next-line
+        ...originDatas.filter((obj) => {
+          for (const key of keywordArr) {
+            return obj.category_names.includes(key);
+          }
+        }),
+      );
+    } else {
+      filteredData.current.push(
+        ...originDatas.filter((obj) => obj.category_names.includes(keyword)),
+      );
+    }
+
     setViewDatas(filteredData.current.slice(0, 20));
+    // eslint-disable-next-line
   }, [keyword]);
 
   useEffect(() => {
