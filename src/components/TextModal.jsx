@@ -1,12 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function TextModal({ modalTextChange, confirmBtn, cancelBtn, textRef }) {
+function TextModal({
+  modalTextChange,
+  confirmBtn,
+  cancelBtn,
+  textRef,
+  showCaution,
+}) {
   return (
     <Container>
       <Modal>
         <h1>영역의 이름은 무엇인가요?</h1>
-        <TextInput type="text" onChange={modalTextChange} ref={textRef} />
+        <TextInput
+          type="text"
+          onChange={modalTextChange}
+          onKeyDown={modalTextChange}
+          ref={textRef}
+        />
+        {showCaution && <Caution>이름을 입력해주세요.</Caution>}
         <BtnArea>
           <NoBtn onClick={cancelBtn}>취소</NoBtn>
           <YesBtn onClick={confirmBtn}>확인</YesBtn>
@@ -53,7 +65,7 @@ const TextInput = styled.input`
 
 const BtnArea = styled.div`
   position: absolute;
-  right: 10px;
+  right: 20px;
   bottom: 10px;
 `;
 const YesBtn = styled.button`
@@ -63,13 +75,20 @@ const YesBtn = styled.button`
   background-color: #01deff;
   border-radius: 5px;
   margin-left: 20px;
+  /* color: #fff; */
 `;
 const NoBtn = styled.button`
   width: 60px;
   height: 40px;
   font-size: 20px;
+  color: #fff;
   background-color: #2a2932;
   border-radius: 5px;
 `;
 
+const Caution = styled.div`
+  margin-top: 5px;
+  font-size: 1.4rem;
+  color: #fff;
+`;
 export default TextModal;
