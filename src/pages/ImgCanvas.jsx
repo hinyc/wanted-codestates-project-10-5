@@ -151,7 +151,7 @@ export default function ImgCanvas() {
   return (
     <Container>
       <InfoBox>
-        {dragArea.map((el, idx) => (
+        {dragArea.map((el, idx) => ( el[4] &&
           <Info key={idx}>
             <span>•</span>
             {modifyTarget === idx ? (
@@ -213,8 +213,8 @@ const InfoBox = styled.ul`
   height: auto;
   min-height: 180px;
   overflow: scroll;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: #cdc9d4;
+  border-radius: 10px;
   position: absolute;
   top: 20px;
   left: 20px;
@@ -222,7 +222,6 @@ const InfoBox = styled.ul`
 `;
 
 const Info = styled.li`
-  /* display: flex; */
   width: 100%;
   height: auto;
   font-size: 2rem;
@@ -255,6 +254,9 @@ const Info = styled.li`
   button {
     border-radius: 5px;
     width: 30px;
+    height: 20px;
+    margin-left: 5px;
+    background-color: skyblue;
     :hover {
       background-color: #c8c8c8;
     }
