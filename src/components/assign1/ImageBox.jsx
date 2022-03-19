@@ -23,7 +23,8 @@ const Container = styled.div`
   width: 20rem;
   height: 40rem;
   background: #ffffff;
-  border: 2px solid #eeefef;
+  border: 1px solid #eee;
+  border-radius: 10px;
   cursor: pointer;
   @media screen and (max-width: 768px) {
     height: 30rem;
@@ -32,7 +33,7 @@ const Container = styled.div`
 const Image = styled.img`
   width: 100%;
   height: 27.6rem;
-  border: 2px solid #eeefef;
+  border-radius: 10px 10px 0 0;
   object-fit: cover;
   background-position: top;
   @media screen and (max-width: 768px) {
@@ -64,6 +65,6 @@ const Price = styled.div`
   font-weight: 400;
   font-size: 1.8rem;
   line-height: 2.1rem;
-  color: rgba(157, 110, 245, 1);
+  color: #6e6e6e;
 `;
 export default ImageBox;
