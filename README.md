@@ -76,7 +76,7 @@
 <details>
   <summary>우혁주</summary>
     <ul>
-    
+     <li>캔버스 & 모달창 구현</li>
     </ul>
 </details>
 <details>
