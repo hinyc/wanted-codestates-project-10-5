@@ -151,33 +151,36 @@ export default function ImgCanvas() {
   return (
     <Container>
       <InfoBox>
-        {dragArea.map((el, idx) => ( el[4] &&
-          <Info key={idx}>
-            <span>•</span>
-            {modifyTarget === idx ? (
-              <input ref={modifyTextRef} placeholder={el[4]} />
-            ) : (
-              <div className="text"> {el[4]}</div>
-            )}
-            <div>
-              {modifyTarget === idx ? (
-                <>
-                  <button
-                    className="confirm"
-                    onClick={() => modifyHandler(idx)}
-                  >
-                    확인
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button onClick={() => setModifyTarget(idx)}>수정</button>
-                  <button onClick={() => removeHandler(idx)}>삭제</button>
-                </>
-              )}
-            </div>
-          </Info>
-        ))}
+        {dragArea.map(
+          (el, idx) =>
+            el[4] && (
+              <Info key={idx}>
+                <span>•</span>
+                {modifyTarget === idx ? (
+                  <input ref={modifyTextRef} placeholder={el[4]} />
+                ) : (
+                  <div className="text"> {el[4]}</div>
+                )}
+                <div>
+                  {modifyTarget === idx ? (
+                    <>
+                      <button
+                        className="confirm"
+                        onClick={() => modifyHandler(idx)}
+                      >
+                        확인
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button onClick={() => setModifyTarget(idx)}>수정</button>
+                      <button onClick={() => removeHandler(idx)}>삭제</button>
+                    </>
+                  )}
+                </div>
+              </Info>
+            ),
+        )}
       </InfoBox>
       <Canvas
         width="630"
@@ -243,11 +246,10 @@ const Info = styled.li`
     line-height: 25px;
     font-size: 1.8rem;
     width: 90px;
-    /* outline: none; */
     border-radius: 5px;
     border: 1px solid #c8c8c8;
     ::placeholder {
-      color: black;
+      color: white;
       font-weight: 400;
     }
   }
