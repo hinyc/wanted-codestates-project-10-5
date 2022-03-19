@@ -89,12 +89,6 @@ const ResultWrapper = styled.section`
   justify-content: center;
   width: 100%;
   height: auto;
-  padding: 0 25rem;
-
-  @media screen and (max-width: 1220px) {
-    padding: 0 10rem;
-    gap: 10rem;
-  }
 `;
 const ButtonWrapper = styled.div`
   width: 100%;
