@@ -132,7 +132,6 @@ export default function ImgCanvas() {
     setModalOpen(!modalOpen);
     const cancelDragArea = [...dragArea];
     cancelDragArea.pop();
-    // setDrawState(true);
     setDragArea(cancelDragArea);
     setStartPoint([]);
   };
@@ -144,6 +143,12 @@ export default function ImgCanvas() {
   };
   const modifyHandler = (targetIdx) => {
     const copyDragArea = [...dragArea];
+    if (!modifyTextRef.current.value) {
+      copyDragArea[targetIdx][4] = ' ';
+      setDragArea(copyDragArea);
+      setModifyTarget(undefined);
+      return;
+    }
     copyDragArea[targetIdx][4] = modifyTextRef.current.value;
     setDragArea(copyDragArea);
     setModifyTarget(undefined);
