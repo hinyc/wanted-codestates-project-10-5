@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 import MoreBtn from '../components/assign1/MoreBtn';
-import Modal from '../components/assign1/Modal';
-import DisableScroll from '../util/disableScroll';
 
 const dummyData = {
   product_code: 1,
@@ -36,8 +34,6 @@ const dummyData = {
 };
 
 function ResultDetail(props) {
-  const [showModal, setShowModal] = useState(false);
-  const [imgUrl, setImgUrl] = useState('');
   const [searchProduct, setSearchProduct] = useState(dummyData);
   const [viewDatas, setViewDatas] = useState([]); // 화면에 보여줄 검색 결과 데이터
   const [attributes, setAttributes] = useState([]);
@@ -117,7 +113,6 @@ function ResultDetail(props) {
       }
     })();
   }, []);
-  DisableScroll(showModal);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -126,7 +121,6 @@ function ResultDetail(props) {
   return (
     <Container>
       <Nav />
-      {showModal && <Modal setShowModal={setShowModal} imgUrl={imgUrl} />}
       <Body>
         {!isValidProduct ? (
           <EmptyResult>검색된 상품 결과가 없습니다 ❌</EmptyResult>
@@ -163,8 +157,6 @@ function ResultDetail(props) {
                       key={idx}
                       data={productInfo}
                       image_url={productInfo.image_url}
-                      setImgUrl={setImgUrl}
-                      setShowModal={setShowModal}
                     />
                   );
                 })}
