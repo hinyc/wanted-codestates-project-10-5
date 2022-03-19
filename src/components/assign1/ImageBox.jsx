@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 function ImageBox(props) {
   const { name, image_url, price } = props.data;
   const setOnClick = () => {
-    console.log(1);
     props.setShowModal(true);
     props.setImgUrl(image_url);
   };
@@ -31,6 +30,7 @@ const Image = styled.img`
   width: 100%;
   height: 27.6rem;
   border: 2px solid #eeefef;
+  object-fit: cover;
 `;
 const Contents = styled.div`
   position: absolute;

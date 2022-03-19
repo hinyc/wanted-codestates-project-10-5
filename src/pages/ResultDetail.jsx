@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
-import { toast } from 'react-toastify';
 import MoreBtn from '../components/assign1/MoreBtn';
 import Modal from '../components/assign1/Modal';
 import DisableScroll from '../util/disableScroll';
@@ -68,7 +67,6 @@ function ResultDetail(props) {
       setSearchProduct(regionsData[productIndex]);
       setIsValidProduct(true);
     } else {
-      toast.error('error hi');
       // 존재하지 않는 상품일 경우
       // setSearchProduct({});
       setIsValidProduct(false);
@@ -97,17 +95,15 @@ function ResultDetail(props) {
       window.localStorage.getItem('productsData'),
     );
 
-    savedFilteredData.current.push(
-      ...productsData.filter(({ category_names }) => {
-        let flag = false;
-        for (const name of category_names) {
-          if (name.slice(3) === c1) {
-            flag = true;
-          }
+    savedFilteredData.current = productsData.filter(({ category_names }) => {
+      let flag = false;
+      for (const name of category_names) {
+        if (name.slice(3) === c1) {
+          flag = true;
         }
-        return flag;
-      }),
-    );
+      }
+      return flag;
+    });
 
     setViewDatas(savedFilteredData.current.slice(0, 20));
   }, [searchProduct]);
@@ -218,8 +214,9 @@ const DetailResult = styled.aside`
 
   img {
     max-width: 100%;
-    width: 44rem;
-    height: 34rem;
+    width: 30rem;
+    height: 40rem;
+    object-fit: cover;
   }
 
   .section-label {
