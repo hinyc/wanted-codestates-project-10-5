@@ -196,6 +196,9 @@ const Body = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 const EmptyResult = styled.div`
   font-size: 3.5rem;
@@ -206,19 +209,20 @@ const DetailResult = styled.aside`
   width: 50rem;
   min-width: 45rem;
   max-width: 50rem;
-
   height: 100vh;
   padding: 0 8rem;
   position: sticky;
   top: 0;
-
+  transition: all 0.5s ease-in-out;
+  @media screen and (max-width: 768px) {
+    position: relative;
+    padding: 0 4rem;
+  }
   img {
     max-width: 100%;
-    width: 30rem;
-    height: 40rem;
-    object-fit: cover;
+    height: 35rem;
+    object-fit: contain;
   }
-
   .section-label {
     color: #585858;
     font-size: 1.8rem;
@@ -250,7 +254,6 @@ const Attributes = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
   .attributes-item {
     width: min-content;
     margin-right: 2.3rem;
@@ -258,13 +261,18 @@ const Attributes = styled.ul`
   }
   .item-tag {
     color: #9d6ef5;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 600;
     line-height: 2.1rem;
+    @media screen and (max-width: 768px) {
+      font-size: 1.2rem;
+      font-weight: 500;
+      line-height: 1.5;
+    }
   }
   .item-category {
     color: #838383;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 600;
     line-height: 1.6rem;
     margin-top: 0.6rem;
@@ -299,7 +307,6 @@ const JumpToTopBtn = styled.button`
   // bottom: 3rem;
   top: -3rem;
   right: 3rem;
-
   width: 5rem;
   height: 5rem;
   border-radius: 50%;

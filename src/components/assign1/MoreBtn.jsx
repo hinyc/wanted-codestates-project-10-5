@@ -16,6 +16,7 @@ const Button = styled.button`
   font-family: 'Roboto';
   font-weight: 400;
   font-size: 2.5rem;
+  z-index: 10;
 `;
 
 export default MoreBtn;
