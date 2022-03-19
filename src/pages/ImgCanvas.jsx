@@ -132,7 +132,6 @@ export default function ImgCanvas() {
     setModalOpen(!modalOpen);
     const cancelDragArea = [...dragArea];
     cancelDragArea.pop();
-    // setDrawState(true);
     setDragArea(cancelDragArea);
     setStartPoint([]);
   };
@@ -144,6 +143,12 @@ export default function ImgCanvas() {
   };
   const modifyHandler = (targetIdx) => {
     const copyDragArea = [...dragArea];
+    if (!modifyTextRef.current.value) {
+      copyDragArea[targetIdx][4] = ' ';
+      setDragArea(copyDragArea);
+      setModifyTarget(undefined);
+      return;
+    }
     copyDragArea[targetIdx][4] = modifyTextRef.current.value;
     setDragArea(copyDragArea);
     setModifyTarget(undefined);
@@ -151,33 +156,36 @@ export default function ImgCanvas() {
   return (
     <Container>
       <InfoBox>
-        {dragArea.map((el, idx) => (
-          <Info key={idx}>
-            <span>•</span>
-            {modifyTarget === idx ? (
-              <input ref={modifyTextRef} placeholder={el[4]} />
-            ) : (
-              <div className="text"> {el[4]}</div>
-            )}
-            <div>
-              {modifyTarget === idx ? (
-                <>
-                  <button
-                    className="confirm"
-                    onClick={() => modifyHandler(idx)}
-                  >
-                    확인
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button onClick={() => setModifyTarget(idx)}>수정</button>
-                  <button onClick={() => removeHandler(idx)}>삭제</button>
-                </>
-              )}
-            </div>
-          </Info>
-        ))}
+        {dragArea.map(
+          (el, idx) =>
+            el[4] && (
+              <Info key={idx}>
+                <span>•</span>
+                {modifyTarget === idx ? (
+                  <input ref={modifyTextRef} placeholder={el[4]} />
+                ) : (
+                  <div className="text"> {el[4]}</div>
+                )}
+                <div>
+                  {modifyTarget === idx ? (
+                    <>
+                      <button
+                        className="confirm"
+                        onClick={() => modifyHandler(idx)}
+                      >
+                        확인
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button onClick={() => setModifyTarget(idx)}>수정</button>
+                      <button onClick={() => removeHandler(idx)}>삭제</button>
+                    </>
+                  )}
+                </div>
+              </Info>
+            ),
+        )}
       </InfoBox>
       <Canvas
         width="630"
@@ -213,8 +221,8 @@ const InfoBox = styled.ul`
   height: auto;
   min-height: 180px;
   overflow: scroll;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: #cdc9d4;
+  border-radius: 10px;
   position: absolute;
   top: 20px;
   left: 20px;
@@ -222,7 +230,6 @@ const InfoBox = styled.ul`
 `;
 
 const Info = styled.li`
-  /* display: flex; */
   width: 100%;
   height: auto;
   font-size: 2rem;
@@ -244,17 +251,19 @@ const Info = styled.li`
     line-height: 25px;
     font-size: 1.8rem;
     width: 90px;
-    /* outline: none; */
     border-radius: 5px;
     border: 1px solid #c8c8c8;
     ::placeholder {
-      color: black;
+      color: white;
       font-weight: 400;
     }
   }
   button {
     border-radius: 5px;
     width: 30px;
+    height: 20px;
+    margin-left: 5px;
+    background-color: skyblue;
     :hover {
       background-color: #c8c8c8;
     }
