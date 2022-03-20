@@ -30,7 +30,7 @@ const Head = styled.nav`
   // padding: 0 5rem;
   padding: 0 10vw;
   border-bottom: 2px solid #f3f4f3;
-  margin-bottom: 8rem;
+  margin-bottom: 5rem;
 
   button {
     width: 9.7rem;

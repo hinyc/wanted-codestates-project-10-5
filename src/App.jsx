@@ -41,7 +41,7 @@ const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   // max-width: 1440px;
-  min-width: 740px;
+  /* min-width: 740px; */
   display: flex;
   justify-content: center;
 `;
