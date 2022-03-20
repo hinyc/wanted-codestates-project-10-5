@@ -4,10 +4,6 @@
 
 ### 📎 &nbsp; [과제링크](https://xenodochial-goldwasser-50a9b3.netlify.app)
 
-<div align="center">
-<img width="300px" src=""/>
-</div>
-
 <br />
 
 ### 🪄&nbsp; 기획 - [Figma](https://www.figma.com/file/a5bjAfNT7BuWpGPrmwJqJY/Untitled?node-id=0%3A1)
