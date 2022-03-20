@@ -12,18 +12,24 @@
 
 ### 🪄&nbsp; 기획 - [Figma](https://www.figma.com/file/a5bjAfNT7BuWpGPrmwJqJY/Untitled?node-id=0%3A1)
  
-#### 🎉 &nbsp; 기능
-- 
+#### 🎉 &nbsp; 기능 구현 목록
+#### 과제1
+- 반응형으로 구현
+- PXL 로고를 클릭 시에 첫 페이지 라우팅
+- More 버튼 도입
+- 검색어 강조
+- 한번 로딩된 데이터는 메모리에 캐시하고, 새로고침 시에는 http요청을 하지 말고 캐시된 데이터를 불러와 랜더링을 해야 합니다
 
-#### 👨‍🎨 &nbsp; 디자인
-- 
-
-### 😎 &nbsp; 기능 구현 목록
 
 
-#### 
+#### 과제2
+<div align="center">
+<img width="500px" src="https://user-images.githubusercontent.com/87487161/159151534-fb75745f-1073-406c-b0cb-07cffced331b.gif"/>
+</div>
 
-1. 
+- 캔버스를 이용한 이미지의 영역을 선택한 후 이름지정 기능
+- 지정된 영역 이름 수정 기능
+- 지정된 영역 삭제 기능
 
 <br />
 
@@ -57,8 +63,8 @@
 <details>
   <summary>홍인열</summary>
   <ul>
-     
-
+   <li>과제2 캔버스 영역 선택 기능 구현</li>
+   <li>선택된 영역 텍스트 수정 및 삭제 기능 구현</li>
   </ul>
 </details>
 <details>
