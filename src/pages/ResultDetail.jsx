@@ -3,10 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
-import { toast } from 'react-toastify';
 import MoreBtn from '../components/assign1/MoreBtn';
-import Modal from '../components/assign1/Modal';
-import DisableScroll from '../util/disableScroll';
 
 const dummyData = {
   product_code: 1,
@@ -37,8 +34,6 @@ const dummyData = {
 };
 
 function ResultDetail(props) {
-  const [showModal, setShowModal] = useState(false);
-  const [imgUrl, setImgUrl] = useState('');
   const [searchProduct, setSearchProduct] = useState(dummyData);
   const [viewDatas, setViewDatas] = useState([]); // 화면에 보여줄 검색 결과 데이터
   const [attributes, setAttributes] = useState([]);
@@ -68,7 +63,6 @@ function ResultDetail(props) {
       setSearchProduct(regionsData[productIndex]);
       setIsValidProduct(true);
     } else {
-      toast.error('error hi');
       // 존재하지 않는 상품일 경우
       // setSearchProduct({});
       setIsValidProduct(false);
@@ -97,17 +91,15 @@ function ResultDetail(props) {
       window.localStorage.getItem('productsData'),
     );
 
-    savedFilteredData.current.push(
-      ...productsData.filter(({ category_names }) => {
-        let flag = false;
-        for (const name of category_names) {
-          if (name.slice(3) === c1) {
-            flag = true;
-          }
+    savedFilteredData.current = productsData.filter(({ category_names }) => {
+      let flag = false;
+      for (const name of category_names) {
+        if (name.slice(3) === c1) {
+          flag = true;
         }
-        return flag;
-      }),
-    );
+      }
+      return flag;
+    });
 
     setViewDatas(savedFilteredData.current.slice(0, 20));
   }, [searchProduct]);
@@ -121,7 +113,6 @@ function ResultDetail(props) {
       }
     })();
   }, []);
-  DisableScroll(showModal);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -130,7 +121,6 @@ function ResultDetail(props) {
   return (
     <Container>
       <Nav />
-      {showModal && <Modal setShowModal={setShowModal} imgUrl={imgUrl} />}
       <Body>
         {!isValidProduct ? (
           <EmptyResult>검색된 상품 결과가 없습니다 ❌</EmptyResult>
@@ -167,8 +157,6 @@ function ResultDetail(props) {
                       key={idx}
                       data={productInfo}
                       image_url={productInfo.image_url}
-                      setImgUrl={setImgUrl}
-                      setShowModal={setShowModal}
                     />
                   );
                 })}
@@ -200,6 +188,9 @@ const Body = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 const EmptyResult = styled.div`
   font-size: 3.5rem;
@@ -210,18 +201,20 @@ const DetailResult = styled.aside`
   width: 50rem;
   min-width: 45rem;
   max-width: 50rem;
-
   height: 100vh;
   padding: 0 8rem;
   position: sticky;
   top: 0;
-
+  transition: all 0.5s ease-in-out;
+  @media screen and (max-width: 768px) {
+    position: relative;
+    padding: 0 4rem;
+  }
   img {
     max-width: 100%;
-    width: 44rem;
-    height: 34rem;
+    height: 35rem;
+    object-fit: contain;
   }
-
   .section-label {
     color: #585858;
     font-size: 1.8rem;
@@ -253,7 +246,6 @@ const Attributes = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
   .attributes-item {
     width: min-content;
     margin-right: 2.3rem;
@@ -261,13 +253,18 @@ const Attributes = styled.ul`
   }
   .item-tag {
     color: #9d6ef5;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 600;
     line-height: 2.1rem;
+    @media screen and (max-width: 768px) {
+      font-size: 1.2rem;
+      font-weight: 500;
+      line-height: 1.5;
+    }
   }
   .item-category {
     color: #838383;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 600;
     line-height: 1.6rem;
     margin-top: 0.6rem;
@@ -302,7 +299,6 @@ const JumpToTopBtn = styled.button`
   // bottom: 3rem;
   top: -3rem;
   right: 3rem;
-
   width: 5rem;
   height: 5rem;
   border-radius: 50%;

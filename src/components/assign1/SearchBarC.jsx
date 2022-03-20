@@ -32,12 +32,13 @@ function SearchBarC(props) {
   );
 }
 const SearchBox = styled.form`
-  width: 60%;
+  width: 100%;
   min-width: 45rem;
   display: flex;
   align-items: center;
-
+  justify-content: center;
   @media screen and (max-width: 768px) {
+    width: 100%;
     min-width: 40rem;
   }
 `;
@@ -49,7 +50,7 @@ const SearchBar = styled.input`
   background: #ffffff;
   box-shadow: 0px 2px 6px 1px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
   font-size: 1.5rem;
   padding: 2.5rem;
   &:focus {
@@ -58,6 +59,7 @@ const SearchBar = styled.input`
   @media screen and (max-width: 768px) {
     padding: 1.5rem;
     font-size: 1.2rem;
+    width: 50%;
   }
 `;
 const Button = styled.button`

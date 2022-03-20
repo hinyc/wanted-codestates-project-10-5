@@ -4,13 +4,9 @@ import styled from 'styled-components';
 import Nav from '../components/assign1/Nav';
 import ImageBox from '../components/assign1/ImageBox';
 import MoreBtn from '../components/assign1/MoreBtn';
-import Modal from '../components/assign1/Modal';
 import Loader from '../components/assign1/Loader';
-import DisableScroll from '../util/disableScroll';
 
 function Result(props) {
-  const [showModal, setShowModal] = useState(false);
-  const [imgUrl, setImgUrl] = useState('');
   const { keyword } = useParams();
   const originDatas = JSON.parse(window.localStorage.getItem('productsData'));
   const filteredData = useRef([]);
@@ -47,21 +43,13 @@ function Result(props) {
     // eslint-disable-next-line
   }, [keyword]);
 
-  DisableScroll(showModal);
-
   return (
     <Container>
       <Nav />
-      {showModal && <Modal setShowModal={setShowModal} imgUrl={imgUrl} />}
       <ResultWrapper>
         {viewDatas.length ? (
           viewDatas.map((data) => (
-            <ImageBox
-              key={data.product_code}
-              data={data}
-              setShowModal={setShowModal}
-              setImgUrl={setImgUrl}
-            />
+            <ImageBox key={data.product_code} data={data} />
           ))
         ) : (
           <Loader type={'spin'} color={'rgb(96, 236, 145)'} />
@@ -89,12 +77,6 @@ const ResultWrapper = styled.section`
   justify-content: center;
   width: 100%;
   height: auto;
-  padding: 0 25rem;
-
-  @media screen and (max-width: 1220px) {
-    padding: 0 10rem;
-    gap: 10rem;
-  }
 `;
 const ButtonWrapper = styled.div`
   width: 100%;

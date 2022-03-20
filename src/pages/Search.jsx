@@ -28,7 +28,7 @@ function Search(props) {
 }
 const Container = styled.div`
   display: flex;
-  max-width: 1200px;
+  max-width: 70rem;
   width: 100%;
   flex-direction: column;
   justify-content: center;

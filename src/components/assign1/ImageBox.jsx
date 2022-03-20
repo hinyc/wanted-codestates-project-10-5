@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 function ImageBox(props) {
   const { name, image_url, price } = props.data;
-  const setOnClick = () => {
-    console.log(1);
-    props.setShowModal(true);
-    props.setImgUrl(image_url);
-  };
+  const setOnClick = () => window.open(image_url);
   return (
     <Container onClick={setOnClick}>
       <Image src={image_url} />
@@ -24,19 +20,31 @@ const Container = styled.div`
   width: 20rem;
   height: 40rem;
   background: #ffffff;
-  border: 2px solid #eeefef;
+  border: 1px solid #eee;
+  border-radius: 10px;
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    height: 30rem;
+  }
 `;
 const Image = styled.img`
   width: 100%;
   height: 27.6rem;
-  border: 2px solid #eeefef;
+  border-radius: 10px 10px 0 0;
+  object-fit: cover;
+  background-position: top;
+  @media screen and (max-width: 768px) {
+    height: 20rem;
+  }
 `;
 const Contents = styled.div`
   position: absolute;
   width: 100%;
   height: 12.4rem;
   padding: 1rem;
+  @media screen and (max-width: 768px) {
+    height: 10rem;
+  }
 `;
 const Title = styled.div`
   font-family: 'Roboto';
@@ -54,6 +62,6 @@ const Price = styled.div`
   font-weight: 400;
   font-size: 1.8rem;
   line-height: 2.1rem;
-  color: rgba(157, 110, 245, 1);
+  color: #6e6e6e;
 `;
 export default ImageBox;
