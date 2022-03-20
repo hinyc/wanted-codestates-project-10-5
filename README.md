@@ -8,7 +8,10 @@
 
 ### 🪄&nbsp; 기획 - [Figma](https://www.figma.com/file/a5bjAfNT7BuWpGPrmwJqJY/Untitled?node-id=0%3A1)
  
+<br /> 
+ 
 #### 🎉 &nbsp; 기능 구현 목록
+
 #### 과제1
 - 반응형으로 구현
 - PXL 로고를 클릭 시에 첫 페이지 라우팅
