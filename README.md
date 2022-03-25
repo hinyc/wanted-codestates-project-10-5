@@ -82,6 +82,8 @@
   <summary>우혁주</summary>
     <ul>
      <li>캔버스 & 모달창 구현</li>
+     <li>선택된 영역 텍스트 수정 및 삭제 기능 구현</li>
+     <li>팀원 인열님과 페어코딩</li>
     </ul>
 </details>
 <details>
