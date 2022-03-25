@@ -89,7 +89,7 @@
 <details>
   <summary>전용태</summary>
   <ul>
-  
+   <li>화상면접 및 코로나로 프로젝트 불참</li>
   </ul>
 </details>
 
