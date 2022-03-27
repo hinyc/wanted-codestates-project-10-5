@@ -13,13 +13,20 @@
 #### 🎉 &nbsp; 기능 구현 목록
 
 #### 과제1
+
+<div align="center">
+ <img width="700px" src="https://user-images.githubusercontent.com/32476867/160280039-99bede39-0eef-46cd-8a94-aae28bdf172c.gif" />
+ <p>⬆️  검색어 키워드 입력에 따른 결과 페이지</p>
+ 
+ <img width="700px" src="https://user-images.githubusercontent.com/32476867/160280241-05ece958-7959-4c80-b650-1a81ad50784d.gif" />
+ <p>⬆️  상품코드 또는 이미지 URL 검색에 따른 결과 페이지</p>
+</div>
+
+- 입력되는 검색어에 따라 상품 데이터 카테고리별로 매핑해서 렌더링
 - 반응형으로 구현
-- PXL 로고를 클릭 시에 첫 페이지 라우팅
-- More 버튼 도입
-- 검색어 강조
-- 한번 로딩된 데이터는 메모리에 캐시하고, 새로고침 시에는 http요청을 하지 말고 캐시된 데이터를 불러와 랜더링을 해야 합니다
-
-
+- PXL 로고 클릭시 메인페이지로 이동
+- More 버튼 클릭시 검색 결과 20개 추가로 보여주기
+- 한번 로딩된 데이터는 메모리에 캐시하고, 새로고침 시에는 http요청을 하지 말고 캐시된 데이터를 불러와 렌더링
 
 #### 과제2
 <div align="center">
@@ -74,9 +81,12 @@
 </details>
 <details>
   <summary>복지호</summary>
-  <ul>
   
-  </ul>
+ - 과제1 상품코드 또는 이미지 URL 검색 결과 페이지 구현
+ - 반응형 레이아웃 구현
+ - 검색어에 따라 나타낼 데이터 매핑 (주영님과 같이)
+   - 노션 페이지 참고 (https://shorthaired-dart-17b.notion.site/5-e33bdd94e68e44a5a14dd7cabfdf5c16)
+ 
 </details>
 <details>
   <summary>우혁주</summary>
