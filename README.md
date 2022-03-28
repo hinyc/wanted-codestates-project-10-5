@@ -76,7 +76,9 @@
 <details>
   <summary>김주영</summary>
   <ul>
-   
+ - 과제1 검색페이지 구현
+ - 검색 결과 페이지 구현 (키워드 입력 시)
+ - 반응형 레이아웃 구현
   </ul>
 </details>
 <details>
